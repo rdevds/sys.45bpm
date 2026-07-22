@@ -55,3 +55,15 @@ Thumbs.db
 
 backend/output/
 output/
+# Instaladores
+*.msi
+
+# Arquivos temporários do Word
+~$*.docx
+
+
+# Instaladores
+*.msi
+
+# Arquivos temporários do Word
+~$*.docx
