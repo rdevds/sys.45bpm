@@ -1,0 +1,18 @@
+{
+  "watch": [
+    "server.js",
+    "supabase.js",
+    "gerar-oficio.js",
+    "routes"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "node_modules/**",
+    "output/**",
+    "templates/**",
+    "*.tmp",
+    "**/*.tmp",
+    "**/.~lock.*"
+  ],
+  "delay": "300"
+}

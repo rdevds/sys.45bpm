@@ -1,0 +1,290 @@
+* {
+  box-sizing: border-box;
+}
+
+.login-page {
+  position: relative;
+
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+
+  overflow: hidden;
+  padding: 24px;
+
+  color: #c0ccd8;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(4, 77, 236, 0.28),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(255, 255, 255, 0),
+      transparent 62%
+    ),
+    #f0f1f31f;
+}
+
+.login-glow {
+  position: absolute;
+
+  border-radius: 999px;
+
+  filter: blur(80px);
+  opacity: 0.45;
+}
+
+.login-glow-um {
+  width: 300px;
+  height: 300px;
+
+  top: 10%;
+  left: -90px;
+
+  background: #2563eb;
+}
+
+.login-glow-dois {
+  width: 280px;
+  height: 280px;
+
+  right: -70px;
+  bottom: 8%;
+
+  background: #7c3aed;
+}
+
+.login-card {
+  position: relative;
+  z-index: 2;
+
+  width: min(460px, 100%);
+  padding: 30px;
+
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 24px;
+
+  background: rgba(10, 18, 32, 0.94);
+
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.48);
+
+  backdrop-filter: blur(18px);
+}
+
+.login-cabecalho {
+  margin-bottom: 26px;
+
+  text-align: center;
+}
+
+.login-icone {
+  display: grid;
+
+  width: 58px;
+  height: 58px;
+
+  margin: 0 auto 16px;
+
+  place-items: center;
+
+  border-radius: 17px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
+
+  box-shadow:
+    0 16px 36px rgba(37, 99, 235, 0.3);
+}
+
+.login-cabecalho > span {
+  color: #fb923c;
+
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.login-cabecalho h1 {
+  margin: 8px 0;
+
+  font-size: 1.9rem;
+}
+
+.login-cabecalho p {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+
+.login-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.login-formulario > label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  color: #ee7605; /* email e senha */
+
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.login-campo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-height: 49px;
+  padding: 0 13px;
+
+  border: 1px solid #2b384d;
+  border-radius: 11px;
+
+  color: #64748b;
+  background: #091321;
+}
+
+.login-campo:focus-within {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+.login-campo input {
+  flex: 1;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  color: #f8fafc;
+  background: transparent;
+
+  font: inherit;
+}
+
+.login-campo input::placeholder {
+  color: #64748b;
+}
+
+.login-mostrar-senha {
+  display: grid;
+  place-items: center;
+
+  padding: 4px;
+
+  border: none;
+
+  color: #94a3b8;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.login-mostrar-senha:hover {
+  color: #ffffff;
+}
+
+.login-erro {
+  padding: 12px 14px;
+
+  border: 1px solid rgba(239, 68, 68, 0.42);
+  border-radius: 10px;
+
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.24);
+
+  font-size: 0.77rem;
+  font-weight: 800;
+}
+
+.login-botao,
+.login-voltar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  min-height: 47px;
+
+  border-radius: 11px;
+
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+
+  cursor: pointer;
+}
+
+.login-botao {
+  border: 1px solid #2563eb;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
+}
+
+.login-botao:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #3b82f6,
+      #2563eb
+    );
+}
+
+.login-voltar {
+  border: 1px solid #334155;
+
+  color: #cbd5e1;
+  background: #111b2b;/* voltar a pagina inicial */
+}
+
+.login-voltar:hover {
+  color: #fffdfd;
+  background: #3b82f6;
+}
+
+.login-botao:disabled,
+.login-voltar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.login-link {
+  background: transparent;
+  border: none;
+  color: #0cfd04;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 8px;
+  transition: 0.2s;
+}
+
+.login-link:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}

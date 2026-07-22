@@ -1,0 +1,1550 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* =========================================================================
+   DESIGN SYSTEM "EMBER" — tokens únicos usados em todo o módulo Viaturas
+   ========================================================================= */
+:root {
+  --bg-1: #17181d;
+  --bg-2: #1f2028;
+  --bg-3: #241b16;
+
+  --orange: #f97316;
+  --orange-dark: #ea580c;
+  --orange-light: #fdba74;
+  --amber: #fbbf24;
+
+  --success: #4ade80;
+  --danger: #fca5a5;
+
+  --text: #f8fafc;
+  --text-soft: #cbd5e1;
+  --text-faint: #8b93a3;
+
+  --glass: rgba(255, 255, 255, 0.045);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(249, 115, 22, 0.5);
+
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.2);
+  --shadow-card: 0 18px 44px rgba(0, 0, 0, 0.32);
+  --shadow-modal: 0 32px 80px rgba(0, 0, 0, 0.5);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* =========================================================================
+   PÁGINA
+   ========================================================================= */
+.viaturas-page {
+  min-height: 100vh;
+  padding: 40px 32px;
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+  background:
+    radial-gradient(900px 520px at 10% -10%, rgba(249, 115, 22, 0.14), transparent 60%),
+    radial-gradient(760px 600px at 105% 8%, rgba(251, 191, 36, 0.1), transparent 58%),
+    linear-gradient(135deg, var(--bg-1), var(--bg-3) 45%, var(--bg-2) 100%);
+  background-size: 100% 100%, 100% 100%, 220% 220%;
+  animation: bgDrift 24s ease-in-out infinite;
+}
+@keyframes bgDrift {
+  0%, 100% { background-position: 0% 0%, 0% 0%, 0% 50%; }
+  50% { background-position: 0% 0%, 0% 0%, 100% 50%; }
+}
+
+.viaturas-container { width: 100%; max-width: 1300px; margin: 0 auto; }
+
+/* =========================================================================
+   CABEÇALHO
+   ========================================================================= */
+.viaturas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 32px;
+  animation: fadeSlideUp 0.5s var(--ease) both;
+}
+
+.abastecimento-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.16), rgba(251, 191, 36, 0.08));
+  border: 1px solid rgba(249, 115, 22, 0.32);
+  color: var(--orange-light);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.abastecimento-badge::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.22);
+}
+
+.viaturas-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(100deg, #fff 20%, var(--orange-light) 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.viaturas-header p {
+  margin: 10px 0 0;
+  color: var(--text-soft);
+  line-height: 1.6;
+  max-width: 48ch;
+}
+
+.botao-nova-viatura {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, var(--orange), var(--orange-dark) 60%, var(--amber) 140%);
+  background-size: 180% 180%;
+  box-shadow: 0 10px 26px -8px rgba(249, 115, 22, 0.5);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background-position 0.5s var(--ease);
+}
+.botao-nova-viatura::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.6s var(--ease);
+}
+.botao-nova-viatura:hover {
+  transform: translateY(-2px);
+  background-position: 100% 0;
+  box-shadow: 0 14px 32px -8px rgba(249, 115, 22, 0.65);
+}
+.botao-nova-viatura:hover::after { transform: translateX(120%); }
+.botao-nova-viatura:active { transform: translateY(0) scale(0.98); }
+
+/* =========================================================================
+   INDICADORES
+   ========================================================================= */
+.viaturas-indicadores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.viaturas-indicadores article {
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  animation: fadeSlideUp 0.5s var(--ease) both;
+}
+.viaturas-indicadores article::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--orange), var(--amber));
+  opacity: 0.7;
+}
+.viaturas-indicadores article:hover {
+  transform: translateY(-3px);
+  border-color: rgba(249, 115, 22, 0.3);
+  box-shadow: var(--shadow-card);
+}
+.viaturas-indicadores article:nth-child(1) { animation-delay: .04s; }
+.viaturas-indicadores article:nth-child(2) { animation-delay: .08s; }
+.viaturas-indicadores article:nth-child(3) { animation-delay: .12s; }
+.viaturas-indicadores article:nth-child(4) { animation-delay: .16s; }
+
+.viaturas-indicadores span {
+  color: var(--text-faint);
+  font-size: 0.76rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+.viaturas-indicadores strong {
+  font-size: 1.7rem;
+  font-weight: 850;
+  letter-spacing: -0.01em;
+  background: linear-gradient(100deg, #fff, var(--orange-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* =========================================================================
+   BUSCA
+   ========================================================================= */
+.viaturas-pesquisa {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 18px;
+  margin-bottom: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  animation: fadeSlideUp 0.5s var(--ease) 0.05s both;
+}
+.viaturas-pesquisa:focus-within {
+  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+.viaturas-pesquisa input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+.viaturas-pesquisa input::placeholder { color: var(--text-faint); }
+
+/* =========================================================================
+   MENSAGENS DE ESTADO
+   ========================================================================= */
+.viaturas-mensagem,
+.aviso-erro {
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: rgba(15, 17, 23, 0.6);
+  color: var(--text-soft);
+  text-align: center;
+}
+.aviso-erro {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(127, 29, 29, 0.18);
+  color: var(--danger);
+  font-weight: 700;
+  text-align: left;
+  margin-top: 14px;
+}
+
+/* =========================================================================
+   LISTA / CARDS DE VIATURA
+   ========================================================================= */
+.viaturas-lista-simples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.viatura-card-simples {
+  background: linear-gradient(160deg, rgba(30, 32, 40, 0.92), rgba(20, 22, 28, 0.94));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  color: var(--text);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  animation: fadeSlideUp 0.45s var(--ease) both;
+}
+.viatura-card-simples::after {
+  content: '';
+  position: absolute; top: -45%; left: -70%; width: 40%; height: 190%;
+  background: linear-gradient(75deg, transparent, rgba(255, 227, 176, 0) 42%, rgba(255, 227, 176, 0.12) 50%, rgba(255, 227, 176, 0) 58%, transparent);
+  animation: sheenAuto 10s ease-in-out infinite;
+  pointer-events: none;
+}
+.viatura-card-simples:hover {
+  transform: translateY(-5px);
+  border-color: rgba(249, 115, 22, 0.32);
+  box-shadow: var(--shadow-card);
+}
+
+.viatura-card-simples > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+  position: relative; z-index: 1;
+}
+
+.viatura-card-simples > header h2 {
+  margin: 8px 0 0;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+/* Placa em destaque */
+.viatura-card-simples > header > strong {
+  flex: 0 0 auto;
+  color: var(--orange-light);
+  font-size: 1.05rem;
+  font-weight: 900;
+  margin-top: 2px;
+}
+
+/* Selo de situação — cor depende da classe extra que o JSX aplica
+   (status-disponivel / status-manutencao / status-baixada) */
+.status-viatura {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-soft);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+.status-viatura::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+}
+.status-viatura.status-disponivel {
+  color: var(--success);
+  background: rgba(74, 222, 128, 0.14);
+  border-color: rgba(74, 222, 128, 0.28);
+}
+.status-viatura.status-manutencao {
+  color: var(--orange-light);
+  background: rgba(249, 115, 22, 0.14);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+.status-viatura.status-baixada {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.viatura-card-dados-simples {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  position: relative; z-index: 1;
+}
+.viatura-card-dados-simples > div { min-width: 0; }
+.viatura-card-dados-simples span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-faint);
+  font-size: 0.63rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.viatura-card-dados-simples strong {
+  display: block;
+  overflow: hidden;
+  color: #e2e8f0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================================
+   MODAL DE CADASTRO
+   ========================================================================= */
+.viatura-modal-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 8, 12, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: fadeIn 0.25s var(--ease) both;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.viatura-modal {
+  width: min(880px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  color: var(--text);
+  background: linear-gradient(160deg, rgba(32, 34, 40, 0.96), rgba(18, 20, 26, 0.98));
+  box-shadow: var(--shadow-modal);
+  animation: modalIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.viatura-modal-header {
+  position: sticky; top: 0; z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 26px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(14, 16, 22, 0.92);
+  backdrop-filter: blur(12px);
+}
+.viatura-modal-header span {
+  color: var(--orange);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.viatura-modal-header h2 {
+  margin: 5px 0 0;
+  font-weight: 800;
+  background: linear-gradient(100deg, #fff, var(--orange-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.viatura-modal-header button {
+  display: grid;
+  place-items: center;
+  width: 40px; height: 40px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-soft);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.viatura-modal-header button:hover {
+  color: #fff;
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: rotate(90deg);
+}
+.viatura-modal-header button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.viatura-formulario { padding: 22px; }
+
+.viatura-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.viatura-form-grid label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.viatura-campo-largo { grid-column: 1 / -1; }
+
+.viatura-form-grid input,
+.viatura-form-grid select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid #23334d;
+  border-radius: 11px;
+  outline: none;
+  color: var(--text);
+  background: #0a0e16;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+}
+.viatura-form-grid input:hover,
+.viatura-form-grid select:hover { border-color: #3b4f6e; }
+.viatura-form-grid input:focus,
+.viatura-form-grid select:focus {
+  border-color: var(--orange);
+  background: #0c1220;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+.viatura-form-grid input::placeholder { color: #64748b; }
+.viatura-form-grid select option { color: var(--text); background: #12141a; }
+
+.viatura-modal-footer {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 18px 22px 22px;
+  border-top: 1px solid var(--border);
+}
+.viatura-modal-footer button {
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.viatura-modal-footer button:first-child {
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  background: rgba(255, 255, 255, 0.05);
+}
+.viatura-modal-footer button:first-child:hover { background: rgba(255, 255, 255, 0.1); color: #fff; transform: translateY(-1px); }
+.viatura-modal-footer button:last-child {
+  border: 1px solid var(--orange);
+  color: #fff;
+  background: linear-gradient(120deg, var(--orange), var(--orange-dark));
+  box-shadow: 0 8px 20px -6px rgba(249, 115, 22, 0.4);
+}
+.viatura-modal-footer button:last-child:hover {
+  background: linear-gradient(120deg, var(--orange-dark), var(--orange));
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -6px rgba(249, 115, 22, 0.55);
+}
+.viatura-modal-footer button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+/* Autofill do navegador sem fundo branco */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text) !important;
+  transition: background-color 9999s ease-in-out 0s;
+  box-shadow: 0 0 0 1000px #0a0e16 inset !important;
+}
+
+/* =========================================================================
+   ANIMAÇÕES
+   ========================================================================= */
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sheenAuto {
+  0% { transform: translateX(-140%) skewX(-12deg); opacity: 0; }
+  10% { opacity: 1; }
+  30% { opacity: 1; }
+  40% { transform: translateX(240%) skewX(-12deg); opacity: 0; }
+  100% { transform: translateX(240%) skewX(-12deg); opacity: 0; }
+}
+
+/* =========================================================================
+   RESPONSIVIDADE
+   ========================================================================= */
+@media (max-width: 1050px) {
+  .viaturas-indicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .viaturas-page { padding: 22px 16px; }
+  .viaturas-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .botao-nova-viatura { width: 100%; }
+  .viaturas-indicadores { grid-template-columns: 1fr; }
+  .viaturas-lista-simples { grid-template-columns: 1fr; }
+  .viatura-card-simples > header { flex-direction: column; }
+  .viatura-form-grid { grid-template-columns: 1fr; }
+  .viatura-campo-largo { grid-column: auto; }
+  .viatura-modal-overlay { align-items: flex-start; padding: 0; }
+  .viatura-modal { width: 100%; min-height: 100vh; max-height: 100vh; border: none; border-radius: 0; }
+  .viatura-modal-footer { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 450px) {
+  .viatura-card-dados-simples { grid-template-columns: 1fr; }
+}
+
+
+/* ===========================================================
+   ÍCONES E ACESSO AO PRONTUÁRIO
+=========================================================== */
+
+.viatura-card-simples {
+  cursor: pointer;
+}
+
+.viatura-card-simples:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+}
+
+.viatura-card-identificacao {
+  min-width: 0;
+}
+
+.viatura-card-prefixo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.viatura-card-prefixo svg {
+  flex: 0 0 auto;
+  color: #fb923c;
+}
+
+.viatura-card-status {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 10px;
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.14);
+
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.viatura-card-placa {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+
+  color: #fb923c;
+}
+
+.viatura-card-placa svg {
+  transition: transform 0.2s ease;
+}
+
+.viatura-card-simples:hover
+  .viatura-card-placa
+  svg {
+  transform: translateX(3px);
+}
+
+.viatura-card-dados-simples span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viatura-card-dados-simples span svg {
+  flex: 0 0 auto;
+  color: #fb923c;
+}
+
+.viatura-card-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding: 14px 22px;
+
+  border-top: 1px solid #1e293b;
+
+  color: #64748b;
+  background: rgba(2, 6, 23, 0.32);
+
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.viatura-card-abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #fb923c;
+}
+
+@media (max-width: 700px) {
+  .viatura-card-rodape {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+
+/*=========================================*/
+
+/* ===========================================================
+   ÍCONES E ACESSO AO PRONTUÁRIO
+=========================================================== */
+
+.viatura-card-simples {
+  cursor: pointer;
+}
+
+.viatura-card-simples:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+}
+
+.viatura-card-identificacao {
+  min-width: 0;
+}
+
+.viatura-card-prefixo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.viatura-card-prefixo svg {
+  flex: 0 0 auto;
+  color: #fb923c;
+}
+
+.viatura-card-status {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 10px;
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.14);
+
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.viatura-card-placa {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+
+  color: #fb923c;
+}
+
+.viatura-card-placa svg {
+  transition: transform 0.2s ease;
+}
+
+.viatura-card-simples:hover
+  .viatura-card-placa
+  svg {
+  transform: translateX(3px);
+}
+
+.viatura-card-dados-simples span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viatura-card-dados-simples span svg {
+  flex: 0 0 auto;
+  color: #fb923c;
+}
+
+.viatura-card-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding: 14px 22px;
+
+  border-top: 1px solid #1e293b;
+
+  color: #64748b;
+  background: rgba(2, 6, 23, 0.32);
+
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.viatura-card-abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #fb923c;
+}
+
+@media (max-width: 700px) {
+  .viatura-card-rodape {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* PRONTUARIO DAS VIATURAS ESTILIZADO */
+
+/* ===========================================================
+   PRONTUÁRIO DA VIATURA
+=========================================================== */
+
+.botao-voltar-prontuario {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 18px;
+  padding: 0;
+
+  border: none;
+
+  color: #cbd5e1;
+  background: transparent;
+
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.botao-voltar-prontuario:hover {
+  color: #fb923c;
+}
+
+/* ===========================================================
+   CABEÇALHO
+=========================================================== */
+
+.prontuario-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+
+  margin-bottom: 22px;
+  padding: 24px;
+
+  border: 1px solid #263449;
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 23, 42, 0.98),
+      rgba(8, 15, 27, 0.98)
+    );
+
+  box-shadow:
+    0 22px 58px rgba(0, 0, 0, 0.25);
+}
+
+.prontuario-header > div:first-child {
+  min-width: 0;
+}
+
+.prontuario-header h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(1.65rem, 3vw, 2.45rem);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.prontuario-header p {
+  margin: 10px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+/* ===========================================================
+   STATUS DA VIATURA
+=========================================================== */
+
+.prontuario-status-box {
+  display: flex;
+  min-width: 280px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.status-viatura {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 32px;
+  padding: 0 12px;
+
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 999px;
+
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.13);
+
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.status-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.status-acoes button {
+  min-height: 36px;
+  padding: 0 12px;
+
+  border: 1px solid #334155;
+  border-radius: 9px;
+
+  color: #dbe4ef;
+  background: #111b2b;
+
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.status-acoes button:hover {
+  transform: translateY(-1px);
+
+  border-color: #f97316;
+
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.status-acoes button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===========================================================
+   ABAS
+=========================================================== */
+
+.prontuario-abas {
+  display: flex;
+  gap: 8px;
+
+  margin-bottom: 20px;
+  padding: 8px;
+
+  overflow-x: auto;
+
+  border: 1px solid #243146;
+  border-radius: 14px;
+
+  background: #0f172a;
+}
+
+.prontuario-abas::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prontuario-abas::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #334155;
+}
+
+.prontuario-abas button {
+  flex: 0 0 auto;
+
+  min-height: 38px;
+  padding: 0 14px;
+
+  border: 1px solid transparent;
+  border-radius: 9px;
+
+  color: #94a3b8;
+  background: transparent;
+
+  font-family: inherit;
+  font-size: 0.74rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.prontuario-abas button:hover {
+  color: #ffffff;
+  background: #172033;
+}
+
+.prontuario-abas button.ativa {
+  border-color: rgba(249, 115, 22, 0.36);
+
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.11);
+}
+
+/* ===========================================================
+   CONTEÚDO
+=========================================================== */
+
+.prontuario-conteudo {
+  min-height: 300px;
+  padding: 22px;
+
+  border: 1px solid #243146;
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 23, 42, 0.97),
+      rgba(8, 15, 27, 0.97)
+    );
+
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.2);
+}
+
+.prontuario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.prontuario-grid > div {
+  min-width: 0;
+  min-height: 92px;
+  padding: 16px;
+
+  border: 1px solid #253247;
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 27, 45, 0.94),
+      rgba(10, 18, 32, 0.94)
+    );
+}
+
+.prontuario-grid span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #64748b;
+
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.prontuario-grid strong {
+  display: block;
+
+  overflow-wrap: anywhere;
+
+  color: #f8fafc;
+
+  font-size: 0.92rem;
+  font-weight: 850;
+  line-height: 1.4;
+}
+
+/* ===========================================================
+   ABAS AINDA SEM CONTEÚDO
+=========================================================== */
+
+.prontuario-vazio {
+  display: grid;
+  min-height: 230px;
+  place-items: center;
+
+  padding: 28px;
+
+  border: 1px dashed #334155;
+  border-radius: 14px;
+
+  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.45);
+
+  font-size: 0.88rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+/* ===========================================================
+   CARREGAMENTO
+=========================================================== */
+
+.form-card {
+  padding: 28px;
+
+  border: 1px solid #243146;
+  border-radius: 16px;
+
+  color: #cbd5e1;
+  background: #101827;
+
+  text-align: center;
+}
+
+/* ===========================================================
+   RESPONSIVIDADE
+=========================================================== */
+
+@media (max-width: 1000px) {
+  .prontuario-header {
+    flex-direction: column;
+  }
+
+  .prontuario-status-box {
+    width: 100%;
+    min-width: 0;
+    align-items: flex-start;
+  }
+
+  .status-acoes {
+    justify-content: flex-start;
+  }
+
+  .prontuario-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .prontuario-header {
+    padding: 18px;
+  }
+
+  .prontuario-header h1 {
+    font-size: 1.45rem;
+  }
+
+  .prontuario-conteudo {
+    padding: 14px;
+  }
+
+  .prontuario-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .status-acoes {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .status-acoes button {
+    width: 100%;
+  }
+}
+
+.prontuario-edicao-acoes {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.botao-cancelar-edicao,
+.botao-salvar-edicao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-width: 170px;
+  height: 42px;
+
+  padding: 0 18px;
+  border-radius: 10px;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.prontuario-edicao-acoes {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.botao-cancelar-edicao,
+.botao-salvar-edicao {
+  position: relative;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-width: 170px;
+  min-height: 42px;
+  padding: 10px 18px;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  font-weight: 700;
+  cursor: pointer;
+
+  background-size: 220% 100%;
+  background-position: left center;
+
+  transition:
+    background-position 0.35s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* CANCELAR */
+
+.botao-cancelar-edicao {
+  color: #f8fafc;
+
+  background-image: linear-gradient(
+    110deg,
+    #252933 0%,
+    #303642 45%,
+    #475569 100%
+  );
+
+  border-color: #475569;
+}
+
+.botao-cancelar-edicao:hover {
+  background-position: right center;
+  border-color: #94a3b8;
+
+  box-shadow:
+    0 0 0 3px rgba(148, 163, 184, 0.14),
+    0 10px 24px rgba(15, 23, 42, 0.34);
+
+  transform: translateY(-2px);
+}
+
+/* SALVAR */
+
+.botao-salvar-edicao {
+  color: #ffffff;
+
+  background-image: linear-gradient(
+    110deg,
+    #ea580c 0%,
+    #f97316 42%,
+    #fb923c 100%
+  );
+
+  border-color: #fb923c;
+}
+
+.botao-salvar-edicao:hover {
+  background-position: right center;
+  border-color: #fdba74;
+
+  box-shadow:
+    0 0 0 3px rgba(249, 115, 22, 0.18),
+    0 10px 26px rgba(249, 115, 22, 0.34);
+
+  transform: translateY(-2px);
+}
+
+/* Efeito de brilho passando sobre o botão */
+
+.botao-cancelar-edicao::before,
+.botao-salvar-edicao::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: -85%;
+
+  width: 55%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+
+  transition: left 0.55s ease;
+}
+
+.botao-cancelar-edicao:hover::before,
+.botao-salvar-edicao:hover::before {
+  left: 135%;
+}
+
+/* Mantém texto e ícone acima do brilho */
+
+.botao-cancelar-edicao svg,
+.botao-salvar-edicao svg {
+  position: relative;
+  z-index: 1;
+}
+
+.botao-cancelar-edicao {
+  isolation: isolate;
+}
+
+.botao-salvar-edicao {
+  isolation: isolate;
+}
+
+/* Clique */
+
+.botao-cancelar-edicao:active,
+.botao-salvar-edicao:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Desabilitado */
+
+.botao-cancelar-edicao:disabled,
+.botao-salvar-edicao:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+
+
+/*BOTÃO CANCELAR SALVAR PRONTUARIO*/
+
+.prontuario-acoes-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  width: 100%;
+  margin-top: 28px;
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.prontuario-acoes-rodape .prontuario-edicao-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.botao-editar-viatura,
+.botao-cancelar-edicao,
+.botao-salvar-edicao {
+  position: relative;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-width: 170px;
+  min-height: 42px;
+  padding: 10px 18px;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  font-weight: 700;
+  cursor: pointer;
+
+  background-size: 220% 100%;
+  background-position: left center;
+
+  transition:
+    background-position 0.35s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.botao-editar-viatura,
+.botao-salvar-edicao {
+  color: #ffffff;
+
+  background-image: linear-gradient(
+    110deg,
+    #ea580c 0%,
+    #f97316 45%,
+    #fb923c 100%
+  );
+
+  border-color: #fb923c;
+}
+
+.botao-cancelar-edicao {
+  color: #f8fafc;
+
+  background-image: linear-gradient(
+    110deg,
+    #252933 0%,
+    #303642 45%,
+    #475569 100%
+  );
+
+  border-color: #475569;
+}
+
+.botao-editar-viatura:hover,
+.botao-salvar-edicao:hover {
+  background-position: right center;
+  border-color: #fdba74;
+
+  box-shadow:
+    0 0 0 3px rgba(249, 115, 22, 0.18),
+    0 10px 26px rgba(249, 115, 22, 0.34);
+
+  transform: translateY(-2px);
+}
+
+.botao-cancelar-edicao:hover {
+  background-position: right center;
+  border-color: #94a3b8;
+
+  box-shadow:
+    0 0 0 3px rgba(148, 163, 184, 0.14),
+    0 10px 24px rgba(15, 23, 42, 0.34);
+
+  transform: translateY(-2px);
+}
+
+.botao-editar-viatura::before,
+.botao-cancelar-edicao::before,
+.botao-salvar-edicao::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: -85%;
+
+  width: 55%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+  transition: left 0.55s ease;
+}
+
+.botao-editar-viatura:hover::before,
+.botao-cancelar-edicao:hover::before,
+.botao-salvar-edicao:hover::before {
+  left: 135%;
+}
+
+.botao-editar-viatura span,
+.botao-cancelar-edicao span,
+.botao-salvar-edicao span,
+.botao-editar-viatura svg,
+.botao-cancelar-edicao svg,
+.botao-salvar-edicao svg {
+  position: relative;
+  z-index: 1;
+}
+
+.botao-editar-viatura:active,
+.botao-cancelar-edicao:active,
+.botao-salvar-edicao:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.botao-cancelar-edicao:disabled,
+.botao-salvar-edicao:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 650px) {
+  .prontuario-acoes-rodape,
+  .prontuario-acoes-rodape .prontuario-edicao-acoes {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .botao-editar-viatura,
+  .botao-cancelar-edicao,
+  .botao-salvar-edicao {
+    width: 100%;
+  }
+}

@@ -1,0 +1,1885 @@
+/* ===========================================================
+   VIEW MILITARES
+   SISTEMA GESTÃO DE FROTA - 45º BPM
+=========================================================== */
+
+.militares-page {
+  min-height: 100vh;
+  padding: 32px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(249, 115, 22, 0.10),
+      transparent 30%
+    ),
+    #070b12;
+
+  color: #f8fafc;
+}
+
+/* ===========================================================
+   CABEÇALHO
+=========================================================== */
+
+.militares-cabecalho {
+  max-width: 1450px;
+  margin: auto;
+  margin-bottom: 28px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.militares-etiqueta {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  color: #fb923c;
+
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.militares-cabecalho h1{
+  margin:0;
+
+  font-size:3rem;
+  font-weight:700;
+}
+
+.militares-cabecalho p{
+
+  margin-top:10px;
+
+  color:#94a3b8;
+
+  font-size:.95rem;
+
+}
+
+.militares-acoes-topo{
+
+  display:flex;
+  gap:12px;
+
+}
+
+/* ===========================================================
+   BOTÕES
+=========================================================== */
+
+.militares-botao-lista,
+.militares-botao-novo{
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  min-height:46px;
+
+  padding:0 18px;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  font-size:.85rem;
+  font-weight:800;
+
+  transition:.20s;
+
+}
+
+.militares-botao-lista{
+
+  border:1px solid #334155;
+
+  background:#111827;
+
+  color:#E2E8F0;
+
+}
+
+.militares-botao-lista:hover{
+
+  border-color:#F97316;
+
+  color:#FB923C;
+
+}
+
+.militares-botao-novo{
+
+  border:none;
+
+  color:white;
+
+  background:linear-gradient(
+      135deg,
+      #F97316,
+      #EA580C
+  );
+
+}
+
+.militares-botao-novo:hover{
+
+  transform:translateY(-2px);
+
+}
+
+/* ===========================================================
+   INDICADORES
+=========================================================== */
+
+.militares-indicadores{
+
+  max-width:1450px;
+
+  margin:auto;
+  margin-bottom:22px;
+
+  display:grid;
+
+  grid-template-columns:
+      repeat(4,1fr);
+
+  gap:18px;
+
+}
+
+.militares-indicador{
+
+  display:flex;
+  align-items:center;
+
+  gap:18px;
+
+  padding:18px;
+
+  border:1px solid #233045;
+
+  border-radius:18px;
+
+  background:#101827;
+
+}
+
+.militares-indicador-icone{
+
+  width:46px;
+  height:46px;
+
+  border-radius:14px;
+
+  display:grid;
+  place-items:center;
+
+  color:#FB923C;
+
+  background:
+      rgba(249,115,22,.12);
+
+}
+
+.militares-indicador span{
+
+  display:block;
+
+  color:#94A3B8;
+
+  font-size:.75rem;
+
+  font-weight:700;
+
+}
+
+.militares-indicador strong{
+
+  display:block;
+
+  margin-top:5px;
+
+  font-size:1.55rem;
+
+  font-weight:800;
+
+}
+
+/* ===========================================================
+   PESQUISA
+=========================================================== */
+
+.militares-ferramentas{
+
+  max-width:1450px;
+
+  margin:auto;
+
+  margin-bottom:22px;
+
+}
+
+.militares-pesquisa{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  min-height:52px;
+
+  padding:0 18px;
+
+  border:1px solid #2B364A;
+
+  border-radius:14px;
+
+  background:#101827;
+
+}
+
+.militares-pesquisa svg{
+
+  color:#64748B;
+
+}
+
+.militares-pesquisa input{
+
+  flex:1;
+
+  border:none;
+
+  outline:none;
+
+  background:transparent;
+
+  color:white;
+
+  font-size:.90rem;
+
+}
+
+.militares-pesquisa input::placeholder{
+
+  color:#64748B;
+
+}
+
+.militares-pesquisa:focus-within{
+
+  border-color:#F97316;
+
+  box-shadow:
+      0 0 0 3px
+      rgba(249,115,22,.12);
+
+}
+
+/*LISTA DE CARDS DE MILITARES*/
+
+
+/* ===========================================================
+   LISTA DE CARDS
+=========================================================== */
+
+.militares-lista {
+  max-width: 1450px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* ===========================================================
+   CARD DO MILITAR
+=========================================================== */
+
+.militar-card {
+  overflow: hidden;
+
+  border: 1px solid #233045;
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 23, 42, 0.98),
+      rgba(8, 15, 27, 0.98)
+    );
+
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.militar-card:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(249, 115, 22, 0.48);
+
+  box-shadow:
+    0 24px 58px rgba(0, 0, 0, 0.3);
+}
+
+/* ===========================================================
+   TOPO DO CARD
+=========================================================== */
+
+.militar-card-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 22px;
+
+  border-bottom: 1px solid #1e293b;
+}
+
+.militar-card-topo > div:first-child {
+  min-width: 0;
+}
+
+.militar-card h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 1.16rem;
+  font-weight: 850;
+  line-height: 1.3;
+}
+
+.militar-card-topo p {
+  margin: 7px 0 0;
+
+  overflow: hidden;
+
+  color: #94a3b8;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===========================================================
+   STATUS
+=========================================================== */
+
+.militar-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.militar-status-ativo {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.militar-status-inativo {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.14);
+}
+
+/* ===========================================================
+   NÚMERO DE POLÍCIA
+=========================================================== */
+
+.militar-numero {
+  flex: 0 0 auto;
+  min-width: 130px;
+
+  text-align: right;
+}
+
+.militar-numero span {
+  display: block;
+
+  color: #64748b;
+
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.militar-numero strong {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #fb923c;
+
+  font-size: 1.02rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+/* ===========================================================
+   DADOS DO CARD
+=========================================================== */
+
+.militar-card-dados {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+
+  padding: 22px;
+}
+
+.militar-card-dados > div {
+  min-width: 0;
+}
+
+.militar-card-dados span {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #64748b;
+
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.militar-card-dados strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #e2e8f0;
+
+  font-size: 0.81rem;
+  font-weight: 800;
+  line-height: 1.35;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===========================================================
+   RODAPÉ DO CARD
+=========================================================== */
+
+.militar-card-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 15px 22px;
+
+  border-top: 1px solid #1e293b;
+
+  background: rgba(2, 6, 23, 0.34);
+}
+
+.militar-card-rodape > span {
+  color: #94a3b8;
+
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.militar-card-rodape button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 36px;
+  padding: 0 14px;
+
+  border: 1px solid #334155;
+  border-radius: 9px;
+
+  color: #f8fafc;
+  background: #172033;
+
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.militar-card-rodape button:hover {
+  transform: translateY(-1px);
+
+  border-color: #f97316;
+
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+/* ===========================================================
+   MENSAGENS E ESTADO VAZIO
+=========================================================== */
+
+.militares-mensagem,
+.militares-vazio {
+  max-width: 1450px;
+  margin: 28px auto;
+  padding: 30px;
+
+  border: 1px solid #233045;
+  border-radius: 18px;
+
+  color: #cbd5e1;
+  background: #101827;
+
+  text-align: center;
+}
+
+.militares-mensagem-erro {
+  border-color: rgba(239, 68, 68, 0.42);
+
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.22);
+}
+
+.militares-vazio svg {
+  color: #fb923c;
+}
+
+.militares-vazio h2 {
+  margin: 12px 0 7px;
+
+  color: #f8fafc;
+
+  font-size: 1.15rem;
+}
+
+.militares-vazio p {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 0.84rem;
+}
+
+/* ===========================================================
+   RESPONSIVIDADE DA VIEW
+=========================================================== */
+
+@media (max-width: 1100px) {
+  .militares-lista {
+    grid-template-columns: 1fr;
+  }
+
+  .militares-indicadores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .militares-page {
+    padding: 22px 14px;
+  }
+
+  .militares-cabecalho {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .militares-cabecalho h1 {
+    font-size: 2.25rem;
+  }
+
+  .militares-acoes-topo {
+    width: 100%;
+    flex-direction: column-reverse;
+  }
+
+  .militares-botao-lista,
+  .militares-botao-novo {
+    width: 100%;
+  }
+
+  .militares-indicadores {
+    grid-template-columns: 1fr;
+  }
+
+  .militar-card-topo {
+    flex-direction: column;
+  }
+
+  .militar-numero {
+    min-width: auto;
+    text-align: left;
+  }
+
+  .militar-card-dados {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .militar-card-rodape {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .militar-card-rodape button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 460px) {
+  .militar-card-dados {
+    grid-template-columns: 1fr;
+  }
+
+  .militar-card-topo,
+  .militar-card-dados {
+    padding: 18px;
+  }
+
+  .militar-card-rodape {
+    padding: 14px 18px;
+  }
+}
+
+
+
+/* ===========================================================
+   MODAL — CADASTRO E EDIÇÃO DE MILITAR
+=========================================================== */
+
+.militar-modal-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(2, 6, 15, 0.84);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.militar-modal {
+  width: min(1100px, 100%);
+  max-height: calc(100vh - 48px);
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  border: 1px solid #243044;
+  border-radius: 20px;
+
+  color: #f8fafc;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(13, 22, 37, 0.99),
+      rgba(7, 14, 26, 0.99)
+    );
+
+  box-shadow:
+    0 30px 100px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+/* ===========================================================
+   BARRA DE ROLAGEM DO MODAL
+=========================================================== */
+
+.militar-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.militar-modal::-webkit-scrollbar-track {
+  background: #08101d;
+}
+
+.militar-modal::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #334155;
+}
+
+.militar-modal::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ===========================================================
+   CABEÇALHO DO MODAL
+=========================================================== */
+
+.militar-modal-cabecalho {
+  position: sticky;
+  z-index: 5;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 20px 24px;
+
+  border-bottom: 1px solid #1e293b;
+
+  background: rgba(9, 17, 30, 0.97);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.militar-modal-cabecalho > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.militar-modal-cabecalho span {
+  color: #f97316;
+
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+
+.militar-modal-cabecalho h2 {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: 1.35rem;
+  font-weight: 850;
+}
+
+.militar-modal-fechar {
+  display: grid;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+
+  padding: 0;
+
+  border: 1px solid #334155;
+  border-radius: 11px;
+
+  color: #cbd5e1;
+  background: #101827;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.militar-modal-fechar:hover {
+  transform: translateY(-1px);
+
+  border-color: #ef4444;
+
+  color: #ffffff;
+  background: rgba(185, 28, 28, 0.45);
+}
+
+.militar-modal-fechar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===========================================================
+   FORMULÁRIO
+=========================================================== */
+
+.militar-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 18px;
+}
+
+.militar-formulario fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 16px 18px 18px;
+
+  border: 1px solid #1d2a3d;
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(8, 17, 30, 0.92),
+      rgba(5, 13, 24, 0.92)
+    );
+}
+
+.militar-formulario legend {
+  padding: 0 9px;
+
+  color: #f97316;
+
+  font-size: 0.90
+  
+  
+  rem;
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+.militar-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.militar-form-grid label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  
+
+  color: #df3b09; /*CABEÇALHOS DOS CAMPOS: CPF, NOME, POSTO, ETC*/
+
+  font-size: 0.99 rem;   /* antes 0.75 */
+  font-weight: 650;
+
+  text-transform: UPPERCASE; /* MAIUSCULA CAMPOS CABEÇALHO */
+}
+
+.militar-campo-largo {
+  grid-column: 1 / -1;
+}
+
+/* ===========================================================
+   CAMPOS
+=========================================================== */
+
+.militar-form-grid input,
+.militar-form-grid select {
+  width: 100%;
+  min-width: 0;
+  min-height: 43px;
+
+  padding: 0 13px;
+
+  border: 1px solid #273449;
+  border-radius: 9px;
+  outline: none;
+
+  color: #f8fafc;
+  background: #091321;
+
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.militar-form-grid input:hover,
+.militar-form-grid select:hover {
+  border-color: #3b4a61;
+}
+
+.militar-form-grid input:focus,
+.militar-form-grid select:focus {
+  border-color: #f97316;
+
+  background: #0c1727;
+
+  box-shadow:
+    0 0 0 3px rgba(249, 115, 22, 0.13);
+}
+
+.militar-form-grid input::placeholder {
+  color: #637086;
+  font-weight: 500;
+}
+
+.militar-form-grid select {
+  cursor: pointer;
+}
+
+.militar-form-grid select option {
+  color: #f8fafc;
+  background: #0f172a;
+}
+
+.militar-form-grid input[type="date"] {
+  color-scheme: dark;
+}
+
+/* Evita fundo claro do preenchimento automático do navegador */
+
+.militar-form-grid input:-webkit-autofill,
+.militar-form-grid input:-webkit-autofill:hover,
+.militar-form-grid input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f8fafc;
+
+  box-shadow:
+    0 0 0 1000px #091321 inset;
+
+  transition:
+    background-color 9999s ease-in-out 0s;
+}
+
+/* ===========================================================
+   OPÇÕES DO SISTEMA
+=========================================================== */
+
+.militar-opcoes {
+  display: flex;
+  align-items: center;
+  align-self: end;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  min-height: 43px;
+  padding: 0 4px;
+}
+
+.militar-checkbox {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px !important;
+
+  color: #dbe4f0 !important;
+
+  font-size: 0.74rem !important;
+  font-weight: 700 !important;
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+.militar-checkbox input {
+  flex: 0 0 auto;
+
+  width: 17px;
+  height: 17px;
+  min-height: auto;
+
+  margin: 0;
+  padding: 0;
+
+  accent-color: #f97316;
+
+  cursor: pointer;
+}
+
+/* ===========================================================
+   ERRO DO FORMULÁRIO
+=========================================================== */
+
+.militar-form-erro {
+  padding: 13px 15px;
+
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  border-radius: 10px;
+
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.24);
+
+  font-size: 0.8rem;
+  font-weight: 850;
+}
+
+/* ===========================================================
+   RODAPÉ DO MODAL
+=========================================================== */
+
+.militar-modal-rodape {
+  position: sticky;
+  z-index: 5;
+  bottom: 0;
+
+  display: grid;
+  grid-template-columns:
+    minmax(160px, 1fr)
+    minmax(220px, 1.4fr);
+  gap: 12px;
+
+  margin: 0 -18px -18px;
+  padding: 16px 18px;
+
+  border-top: 1px solid #1e293b;
+
+  background: rgba(9, 17, 30, 0.98);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.militar-botao-cancelar,
+.militar-botao-salvar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 46px;
+  padding: 0 20px;
+
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 850;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.militar-botao-cancelar {
+  border: 1px solid #334155;
+
+  color: #e2e8f0;
+  background: #111b2b;
+}
+
+.militar-botao-cancelar:hover {
+  transform: translateY(-1px);
+
+  border-color: #64748b;
+
+  background: #172338;
+}
+
+.militar-botao-salvar {
+  border: 1px solid #f97316;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f97316,
+      #ea580c
+    );
+
+  box-shadow:
+    0 10px 28px rgba(234, 88, 12, 0.22);
+}
+
+.militar-botao-salvar:hover {
+  transform: translateY(-1px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #fb923c,
+      #f97316
+    );
+
+  box-shadow:
+    0 12px 34px rgba(249, 115, 22, 0.32);
+}
+
+.militar-botao-cancelar:disabled,
+.militar-botao-salvar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===========================================================
+   ORGANIZAÇÃO DOS CAMPOS EM TELAS GRANDES
+=========================================================== */
+
+@media (min-width: 900px) {
+  /* Identificação */
+
+  .militar-formulario
+    fieldset:first-of-type
+    .militar-form-grid {
+    grid-template-columns:
+      0.8fr
+      0.8fr
+      1.4fr;
+  }
+
+  .militar-formulario
+    fieldset:first-of-type
+    .militar-campo-largo:first-of-type {
+    grid-column: auto;
+  }
+
+  .militar-formulario
+    fieldset:first-of-type
+    .militar-campo-largo:last-of-type {
+    grid-column: 1 / -1;
+  }
+
+  /* Contato e lotação */
+
+  .militar-formulario
+    fieldset:nth-of-type(2)
+    .militar-form-grid,
+  .militar-formulario
+    fieldset:nth-of-type(3)
+    .militar-form-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .militar-formulario
+    fieldset:nth-of-type(2)
+    .militar-campo-largo,
+  .militar-formulario
+    fieldset:nth-of-type(3)
+    .militar-campo-largo {
+    grid-column: auto;
+  }
+
+  /* CNH */
+
+  .militar-formulario
+    fieldset:nth-of-type(4)
+    .militar-form-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  /* Sistema */
+
+  .militar-formulario
+    fieldset:nth-of-type(5)
+    .militar-form-grid {
+    grid-template-columns:
+      0.8fr
+      2.2fr;
+  }
+}
+
+/* ===========================================================
+   RESPONSIVIDADE DO MODAL
+=========================================================== */
+
+@media (max-width: 760px) {
+  .militar-modal-overlay {
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  .militar-modal {
+    width: 100%;
+    max-height: 100vh;
+    min-height: 100vh;
+
+    border: none;
+    border-radius: 0;
+  }
+
+  .militar-modal-cabecalho {
+    padding: 16px;
+  }
+
+  .militar-formulario {
+    padding: 14px;
+  }
+
+  .militar-formulario fieldset {
+    padding: 14px;
+  }
+
+  .militar-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .militar-campo-largo {
+    grid-column: auto;
+  }
+
+  .militar-opcoes {
+    align-items: flex-start;
+    align-self: stretch;
+    flex-direction: column;
+    gap: 12px;
+
+    padding-top: 8px;
+  }
+
+  .militar-modal-rodape {
+    grid-template-columns: 1fr;
+
+    margin: 0 -14px -14px;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 430px) {
+  .militar-modal-cabecalho h2 {
+    font-size: 1.15rem;
+  }
+
+  .militar-formulario fieldset {
+    padding: 12px;
+  }
+}
+
+
+
+/*LANILHA MILITARES*/
+
+
+* {
+  box-sizing: border-box;
+}
+
+.lista-militares-page {
+  min-height: 100vh;
+  padding: 30px;
+
+  color: #f8fafc;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(249, 115, 22, 0.1),
+      transparent 30%
+    ),
+    #070b12;
+}
+
+.lista-militares-container {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* ===========================================================
+   CABEÇALHO
+=========================================================== */
+
+.lista-militares-cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 24px;
+}
+
+.lista-militares-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 18px;
+  padding: 0;
+
+  border: none;
+
+  color: #cbd5e1;
+  background: transparent;
+
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.lista-militares-voltar:hover {
+  color: #fb923c;
+}
+
+.lista-militares-etiqueta {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #fb923c;
+
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+
+.lista-militares-cabecalho h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.lista-militares-cabecalho p {
+  margin: 9px 0 0;
+
+  color: #94a3b8;
+}
+
+.lista-militares-atualizar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 44px;
+  padding: 0 17px;
+
+  border: 1px solid #334155;
+  border-radius: 11px;
+
+  color: #e2e8f0;
+  background: #111b2b;
+
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.lista-militares-atualizar:hover {
+  border-color: #f97316;
+  color: #fb923c;
+}
+
+.lista-militares-atualizar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lista-militares-girando {
+  animation: listaMilitaresGirar 0.8s linear infinite;
+}
+
+@keyframes listaMilitaresGirar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===========================================================
+   RESUMO E PESQUISA
+=========================================================== */
+
+.lista-militares-resumo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-bottom: 20px;
+  padding: 14px;
+
+  border: 1px solid #243146;
+  border-radius: 15px;
+
+  background: #101827;
+}
+
+.lista-militares-resumo > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #94a3b8;
+
+  font-size: 0.78rem;
+}
+
+.lista-militares-resumo > div svg {
+  color: #fb923c;
+}
+
+.lista-militares-resumo strong {
+  margin-right: 5px;
+
+  color: #ffffff;
+
+  font-size: 1rem;
+}
+
+.lista-militares-pesquisa {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: min(720px, 100%);
+  min-height: 44px;
+  padding: 0 14px;
+
+  border: 1px solid #2b384d;
+  border-radius: 10px;
+
+  color: #64748b;
+  background: #091321;
+}
+
+.lista-militares-pesquisa:focus-within {
+  border-color: #f97316;
+
+  box-shadow:
+    0 0 0 3px rgba(249, 115, 22, 0.12);
+}
+
+.lista-militares-pesquisa input {
+  flex: 1;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  color: #f8fafc;
+  background: transparent;
+
+  font: inherit;
+}
+
+.lista-militares-pesquisa input::placeholder {
+  color: #64748b;
+}
+
+/* ===========================================================
+   TABELA
+=========================================================== */
+
+.lista-militares-tabela-card {
+  overflow: hidden;
+
+  border: 1px solid #243146;
+  border-radius: 17px;
+
+  background: #0b1322;
+
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.25);
+}
+
+.lista-militares-tabela-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.lista-militares-tabela-scroll::-webkit-scrollbar {
+  height: 9px;
+}
+
+.lista-militares-tabela-scroll::-webkit-scrollbar-track {
+  background: #08101d;
+}
+
+.lista-militares-tabela-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #334155;
+}
+
+.lista-militares-tabela {
+  width: 100%;
+  min-width: 2100px;
+
+  border-collapse: collapse;
+}
+
+.lista-militares-tabela th {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+
+  padding: 13px 14px;
+
+  border-bottom: 1px solid #2a374b;
+
+  color: #94a3b8;
+  background: #111b2c;
+
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.055em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lista-militares-tabela td {
+  padding: 13px 14px;
+
+  border-bottom: 1px solid #172235;
+
+  color: #dbe4ef;
+
+  font-size: 0.74rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.lista-militares-tabela tbody tr {
+  transition: background 0.18s ease;
+}
+
+.lista-militares-tabela tbody tr:hover {
+  background: rgba(249, 115, 22, 0.055);
+}
+
+.lista-militares-tabela tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.lista-numero-policia {
+  color: #fb923c !important;
+  font-weight: 900 !important;
+}
+
+.lista-nome-policia {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+
+.lista-email {
+  color: #93c5fd !important;
+  text-transform: lowercase;
+}
+
+/* ===========================================================
+   STATUS E DESTAQUES
+=========================================================== */
+
+.lista-status,
+.lista-perfil,
+.lista-sim,
+.lista-nao,
+.lista-cnh-vencida {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 26px;
+  padding: 0 9px;
+
+  border-radius: 999px;
+
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
+.lista-status-ativo,
+.lista-sim {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.lista-status-inativo,
+.lista-nao {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.lista-perfil {
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.14);
+}
+
+.lista-cnh-vencida {
+  color: #ffffff;
+  background: rgba(220, 38, 38, 0.55);
+}
+
+.lista-militar-cnh-vencida {
+  background: rgba(127, 29, 29, 0.22);
+}
+
+.lista-militar-cnh-vencida td:first-child {
+  box-shadow: inset 4px 0 0 #ef4444;
+}
+
+.lista-militar-inativo {
+  opacity: 0.62;
+  background: rgba(51, 65, 85, 0.2);
+}
+
+/* ===========================================================
+   BOTÃO EDITAR
+=========================================================== */
+
+.lista-editar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-height: 33px;
+  padding: 0 12px;
+
+  border: 1px solid #334155;
+  border-radius: 8px;
+
+  color: #f8fafc;
+  background: #172033;
+
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.lista-editar:hover {
+  border-color: #f97316;
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+/* ===========================================================
+   MENSAGENS
+=========================================================== */
+
+.lista-militares-mensagem,
+.lista-militares-vazio {
+  padding: 32px;
+
+  border: 1px solid #243146;
+  border-radius: 16px;
+
+  color: #cbd5e1;
+  background: #101827;
+
+  text-align: center;
+}
+
+.lista-militares-erro {
+  border-color: rgba(239, 68, 68, 0.42);
+
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.22);
+}
+
+.lista-militares-vazio svg {
+  color: #fb923c;
+}
+
+.lista-militares-vazio h2 {
+  margin: 12px 0 7px;
+
+  color: #ffffff;
+}
+
+.lista-militares-vazio p {
+  margin: 0;
+
+  color: #94a3b8;
+}
+
+/* ===========================================================
+   RESPONSIVIDADE
+=========================================================== */
+
+@media (max-width: 850px) {
+  .lista-militares-page {
+    padding: 22px 14px;
+  }
+
+  .lista-militares-cabecalho {
+    flex-direction: column;
+  }
+
+  .lista-militares-atualizar {
+    width: 100%;
+  }
+
+  .lista-militares-resumo {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .lista-militares-pesquisa {
+    width: 100%;
+  }
+}
+
+
+
+/* =========================================================
+   LOTAÇÕES E FUNÇÕES
+========================================================= */
+
+.lotacoes-editor {
+  display: grid;
+  gap: 18px;
+}
+
+.lotacoes-editor-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lotacoes-editor-topo strong {
+  display: block;
+  font-size: 15px;
+}
+
+.lotacoes-editor-topo p {
+  margin: 4px 0 0;
+  opacity: 0.72;
+  font-size: 13px;
+}
+
+.lotacoes-adicionar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgba(249, 115, 22, 0.45);
+  border-radius: 10px;
+  background: rgba(249, 115, 22, 0.12);
+  color: inherit;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.lotacoes-editor-lista {
+  display: grid;
+  gap: 14px;
+}
+
+.lotacao-editor-card {
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.22);
+}
+
+.lotacao-editor-card > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.lotacao-editor-card > header span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #fb923c;
+}
+
+.lotacao-editor-card .militar-form-grid {
+  padding: 16px;
+}
+
+.lotacao-remover {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 9px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+  cursor: pointer;
+}
+
+.lotacao-remover:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.lotacao-opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 24px;
+  padding-top: 6px;
+}
+
+.lotacao-opcoes .militar-checkbox {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+}
+
+.lotacao-opcoes .militar-checkbox input {
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 760px) {
+  .lotacoes-editor-topo {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .lotacoes-adicionar {
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

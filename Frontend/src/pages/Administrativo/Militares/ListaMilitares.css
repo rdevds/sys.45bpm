@@ -1,0 +1,466 @@
+* {
+  box-sizing: border-box;
+}
+
+.lista-militares-page {
+  min-height: 100vh;
+  padding: 30px;
+
+  color: #f8fafc;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(249, 115, 22, 0.1),
+      transparent 30%
+    ),
+    #070b12;
+}
+
+.lista-militares-container {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* ===========================================================
+   CABEÇALHO
+=========================================================== */
+
+.lista-militares-cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 24px;
+}
+
+.lista-militares-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 18px;
+  padding: 0;
+
+  border: none;
+
+  color: #cbd5e1;
+  background: transparent;
+
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.lista-militares-voltar:hover {
+  color: #fb923c;
+}
+
+.lista-militares-etiqueta {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #fb923c;
+
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+
+.lista-militares-cabecalho h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.lista-militares-cabecalho p {
+  margin: 9px 0 0;
+
+  color: #94a3b8;
+}
+
+.lista-militares-atualizar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 44px;
+  padding: 0 17px;
+
+  border: 1px solid #334155;
+  border-radius: 11px;
+
+  color: #e2e8f0;
+  background: #111b2b;
+
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.lista-militares-atualizar:hover {
+  border-color: #f97316;
+  color: #fb923c;
+}
+
+.lista-militares-atualizar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lista-militares-girando {
+  animation: listaMilitaresGirar 0.8s linear infinite;
+}
+
+@keyframes listaMilitaresGirar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===========================================================
+   RESUMO E PESQUISA
+=========================================================== */
+
+.lista-militares-resumo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-bottom: 20px;
+  padding: 14px;
+
+  border: 1px solid #243146;
+  border-radius: 15px;
+
+  background: #101827;
+}
+
+.lista-militares-resumo > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #94a3b8;
+
+  font-size: 0.78rem;
+}
+
+.lista-militares-resumo > div svg {
+  color: #fb923c;
+}
+
+.lista-militares-resumo strong {
+  margin-right: 5px;
+
+  color: #ffffff;
+
+  font-size: 1rem;
+}
+
+.lista-militares-pesquisa {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: min(720px, 100%);
+  min-height: 44px;
+  padding: 0 14px;
+
+  border: 1px solid #2b384d;
+  border-radius: 10px;
+
+  color: #64748b;
+  background: #091321;
+}
+
+.lista-militares-pesquisa:focus-within {
+  border-color: #f97316;
+
+  box-shadow:
+    0 0 0 3px rgba(249, 115, 22, 0.12);
+}
+
+.lista-militares-pesquisa input {
+  flex: 1;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  color: #f8fafc;
+  background: transparent;
+
+  font: inherit;
+}
+
+.lista-militares-pesquisa input::placeholder {
+  color: #64748b;
+}
+
+/* ===========================================================
+   TABELA
+=========================================================== */
+
+.lista-militares-tabela-card {
+  overflow: hidden;
+
+  border: 1px solid #243146;
+  border-radius: 17px;
+
+  background: #0b1322;
+
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.25);
+}
+
+.lista-militares-tabela-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.lista-militares-tabela-scroll::-webkit-scrollbar {
+  height: 9px;
+}
+
+.lista-militares-tabela-scroll::-webkit-scrollbar-track {
+  background: #08101d;
+}
+
+.lista-militares-tabela-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #334155;
+}
+
+.lista-militares-tabela {
+  width: 100%;
+  min-width: 2100px;
+
+  border-collapse: collapse;
+}
+
+.lista-militares-tabela th {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+
+  padding: 13px 14px;
+
+  border-bottom: 1px solid #2a374b;
+
+  color: #94a3b8;
+  background: #111b2c;
+
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.055em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lista-militares-tabela td {
+  padding: 13px 14px;
+
+  border-bottom: 1px solid #172235;
+
+  color: #dbe4ef;
+
+  font-size: 0.74rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.lista-militares-tabela tbody tr {
+  transition: background 0.18s ease;
+}
+
+.lista-militares-tabela tbody tr:hover {
+  background: rgba(249, 115, 22, 0.055);
+}
+
+.lista-militares-tabela tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.lista-numero-policia {
+  color: #fb923c !important;
+  font-weight: 900 !important;
+}
+
+.lista-nome-policia {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+
+.lista-email {
+  color: #93c5fd !important;
+  text-transform: lowercase;
+}
+
+/* ===========================================================
+   STATUS E DESTAQUES
+=========================================================== */
+
+.lista-status,
+.lista-perfil,
+.lista-sim,
+.lista-nao,
+.lista-cnh-vencida {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 26px;
+  padding: 0 9px;
+
+  border-radius: 999px;
+
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
+.lista-status-ativo,
+.lista-sim {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.lista-status-inativo,
+.lista-nao {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.lista-perfil {
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.14);
+}
+
+.lista-cnh-vencida {
+  color: #ffffff;
+  background: rgba(220, 38, 38, 0.55);
+}
+
+.lista-militar-cnh-vencida {
+  background: rgba(127, 29, 29, 0.22);
+}
+
+.lista-militar-cnh-vencida td:first-child {
+  box-shadow: inset 4px 0 0 #ef4444;
+}
+
+.lista-militar-inativo {
+  opacity: 0.62;
+  background: rgba(51, 65, 85, 0.2);
+}
+
+/* ===========================================================
+   BOTÃO EDITAR
+=========================================================== */
+
+.lista-editar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-height: 33px;
+  padding: 0 12px;
+
+  border: 1px solid #334155;
+  border-radius: 8px;
+
+  color: #f8fafc;
+  background: #172033;
+
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.lista-editar:hover {
+  border-color: #f97316;
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+/* ===========================================================
+   MENSAGENS
+=========================================================== */
+
+.lista-militares-mensagem,
+.lista-militares-vazio {
+  padding: 32px;
+
+  border: 1px solid #243146;
+  border-radius: 16px;
+
+  color: #cbd5e1;
+  background: #101827;
+
+  text-align: center;
+}
+
+.lista-militares-erro {
+  border-color: rgba(239, 68, 68, 0.42);
+
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.22);
+}
+
+.lista-militares-vazio svg {
+  color: #fb923c;
+}
+
+.lista-militares-vazio h2 {
+  margin: 12px 0 7px;
+
+  color: #ffffff;
+}
+
+.lista-militares-vazio p {
+  margin: 0;
+
+  color: #94a3b8;
+}
+
+/* ===========================================================
+   RESPONSIVIDADE
+=========================================================== */
+
+@media (max-width: 850px) {
+  .lista-militares-page {
+    padding: 22px 14px;
+  }
+
+  .lista-militares-cabecalho {
+    flex-direction: column;
+  }
+
+  .lista-militares-atualizar {
+    width: 100%;
+  }
+
+  .lista-militares-resumo {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .lista-militares-pesquisa {
+    width: 100%;
+  }
+}
