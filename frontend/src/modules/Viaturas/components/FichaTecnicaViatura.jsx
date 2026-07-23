@@ -1,82 +1,107 @@
-function FichaTecnicaViatura({ viatura }) {
-  if (!viatura) return null;
+<section className="dados-tecnicos-automaticos">
+  <header className="dados-tecnicos-header">
+    <ShieldCheck size={18} />
+    <span>Dados técnicos automáticos</span>
+  </header>
 
-  return (
-    <section className="ficha-tecnica-card">
-      <header className="ficha-tecnica-header">
-        <div>
-          <h3>Ficha Técnica</h3>
-          <p>Dados principais da viatura.</p>
-        </div>
-      </header>
+  <div className="dados-tecnicos-grid">
 
-      <div className="ficha-tecnica-grid">
-        <div>
-          <span>Prefixo</span>
-          <strong>{viatura.prefixo}</strong>
-        </div>
+    <div className="dado">
+      <span>Combustível</span>
+      <strong>{viatura.combustivel || "-"}</strong>
+    </div>
 
-        <div>
-          <span>Placa</span>
-          <strong>{viatura.placa}</strong>
-        </div>
+    <div className="dado">
+      <span>Tipo</span>
+      <strong>{viatura.tipo || "-"}</strong>
+    </div>
 
-        <div>
-          <span>Marca / Modelo</span>
-          <strong>
-            {viatura.marca} {viatura.modelo}
-          </strong>
-        </div>
+    <div className="dado">
+      <span>Pneus</span>
+      <strong>{viatura.pneus || "-"}</strong>
+    </div>
 
-        <div>
-          <span>Ano</span>
-          <strong>{viatura.ano}</strong>
-        </div>
+    <div className="dado">
+      <span>Óleo do Motor</span>
+      <strong>{viatura.oleoMotor || "-"}</strong>
+    </div>
 
-        <div>
-          <span>Combustível</span>
-          <strong>{viatura.combustivel}</strong>
-        </div>
+    <div className="dado">
+      <span>Cárter</span>
+      <strong>
+        {viatura.capacidadeCarter
+          ? `${viatura.capacidadeCarter} L`
+          : "-"}
+      </strong>
+    </div>
 
-        <div>
-          <span>Capacidade do tanque</span>
-          <strong>{viatura.capacidadeTanque}</strong>
-        </div>
+    <div className="dado">
+      <span>Tanque</span>
+      <strong>
+        {viatura.capacidadeTanque
+          ? `${viatura.capacidadeTanque} L`
+          : "-"}
+      </strong>
+    </div>
 
-        <div>
-          <span>Capacidade do cárter</span>
-          <strong>{viatura.capacidadeCarter}</strong>
-        </div>
+    <div className="dado">
+      <span>Troca de Óleo</span>
+      <strong>
+        {viatura.trocaOleo
+          ? `${Number(viatura.trocaOleo).toLocaleString("pt-BR")} km`
+          : "-"}
+      </strong>
+    </div>
 
-        <div>
-          <span>Troca de óleo</span>
-          <strong>{viatura.frequenciaTrocaDeOleo} km</strong>
-        </div>
+    <div className="dado">
+      <span>Correia Dentada</span>
+      <strong>
+        {viatura.trocaCorreia
+          ? `${Number(viatura.trocaCorreia).toLocaleString("pt-BR")} km`
+          : "-"
+        }
+      </strong>
+    </div>
 
-        <div>
-          <span>Chassi</span>
-          <strong>{viatura.chassi}</strong>
-        </div>
+    <div className="dado">
+      <span>Filtro de Ar</span>
+      <strong>
+        {viatura.trocaFiltroAr
+          ? `${Number(viatura.trocaFiltroAr).toLocaleString("pt-BR")} km`
+          : "-"
+        }
+      </strong>
+    </div>
 
-        <div>
-          <span>RENAVAM</span>
-          <strong>{viatura.renavam}</strong>
-        </div>
+    <div className="dado">
+      <span>Filtro Combustível</span>
+      <strong>
+        {viatura.trocaFiltroCombustivel
+          ? `${Number(viatura.trocaFiltroCombustivel).toLocaleString("pt-BR")} km`
+          : "-"
+        }
+      </strong>
+    </div>
 
-        <div>
-          <span>Patrimônio</span>
-          <strong>{viatura.patrimonio}</strong>
-        </div>
+    <div className="dado">
+      <span>Fluido de Freio</span>
+      <strong>
+        {viatura.trocaFluidoFreio
+          ? `${Number(viatura.trocaFluidoFreio).toLocaleString("pt-BR")} km`
+          : "-"
+        }
+      </strong>
+    </div>
 
-        <div>
-          <span>Valor venal</span>
-          <strong>
-            R$ {Number(viatura.valorVenal || 0).toLocaleString("pt-BR")}
-          </strong>
-        </div>
-      </div>
-    </section>
-  );
-}
+    <div className="dado">
+      <span>Arrefecimento</span>
+      <strong>
+        {viatura.capacidadeArrefecimento
+          ? `${viatura.capacidadeArrefecimento} L`
+          : "-"
+        }
+      </strong>
+    </div>
 
-export default FichaTecnicaViatura;
+  </div>
+</section>

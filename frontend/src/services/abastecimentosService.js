@@ -15,7 +15,9 @@ export async function buscarAbastecimentos() {
   const { data, error } = await supabase
     .from(TABELA)
     .select("*")
-    .order("data_hora", { ascending: false });
+    .order("data_hora", {
+      ascending: false,
+    });
 
   if (error) {
     console.error(
@@ -33,6 +35,46 @@ export async function buscarAbastecimentos() {
 }
 
 /**
+ * Buscar somente os abastecimentos de uma viatura.
+ */
+export async function buscarAbastecimentosDaViatura(
+  viaturaId
+) {
+  const id = Number(viaturaId);
+
+  if (
+    !Number.isInteger(id) ||
+    id <= 0
+  ) {
+    throw new Error(
+      "IDENTIFICADOR DA VIATURA INVÁLIDO."
+    );
+  }
+
+  const { data, error } = await supabase
+    .from(TABELA)
+    .select("*")
+    .eq("viatura_id", id)
+    .order("data_hora", {
+      ascending: false,
+    });
+
+  if (error) {
+    console.error(
+      "Erro ao buscar abastecimentos da viatura:",
+      error
+    );
+
+    throw new Error(
+      error.message ||
+        "NÃO FOI POSSÍVEL BUSCAR OS ABASTECIMENTOS DA VIATURA."
+    );
+  }
+
+  return data ?? [];
+}
+
+/**
  * Salvar um novo abastecimento.
  *
  * Todo abastecimento novo entra na fila do SIAD
@@ -41,15 +83,57 @@ export async function buscarAbastecimentos() {
 export async function salvarAbastecimento(
   abastecimento
 ) {
+  const viaturaId = Number(
+    abastecimento?.viatura_id ??
+      abastecimento?.viaturaId ??
+      abastecimento?.viatura?.id
+  );
+
+  if (
+    !Number.isInteger(viaturaId) ||
+    viaturaId <= 0
+  ) {
+    throw new Error(
+      "NÃO FOI POSSÍVEL IDENTIFICAR A VIATURA DO ABASTECIMENTO."
+    );
+  }
+
+  const prefixo = String(
+    abastecimento?.prefixo ??
+      abastecimento?.viatura?.prefixo ??
+      ""
+  )
+    .replace(/\D/g, "")
+    .slice(0, 5);
+
+  const placa = String(
+    abastecimento?.placa ??
+      abastecimento?.viatura?.placa ??
+      ""
+  )
+    .trim()
+    .toUpperCase();
+
   const dadosParaSalvar = {
     ...abastecimento,
+
+    viatura_id: viaturaId,
+    prefixo,
+    placa,
 
     status_siad: STATUS_SIAD.RECEBIDO,
 
     status_lancamento:
-      abastecimento.status_lancamento ||
+      abastecimento?.status_lancamento ||
       "RECEBIDO",
   };
+
+  /*
+   * Esses campos são utilizados apenas no frontend
+   * e não devem ser enviados ao Supabase.
+   */
+  delete dadosParaSalvar.viaturaId;
+  delete dadosParaSalvar.viatura;
 
   const { data, error } = await supabase
     .from(TABELA)
@@ -74,9 +158,6 @@ export async function salvarAbastecimento(
 
 /**
  * Registrar erro ou pendência no lançamento do SIAD.
- *
- * O registro permanece na fila e será destacado
- * em vermelho na View Abastecimentos.
  */
 export async function atualizarErroAbastecimento(
   id,
@@ -91,7 +172,9 @@ export async function atualizarErroAbastecimento(
     );
   }
 
-  const tipo = String(tipoErro || "")
+  const tipo = String(
+    tipoErro || ""
+  )
     .trim()
     .toUpperCase();
 
@@ -111,7 +194,8 @@ export async function atualizarErroAbastecimento(
     );
   }
 
-  const agora = new Date().toISOString();
+  const agora =
+    new Date().toISOString();
 
   const { data, error } = await supabase
     .from(TABELA)
@@ -177,28 +261,44 @@ export async function atualizarStatusSiad(
     STATUS_SIAD.ERRO,
   ];
 
-  if (!statusPermitidos.includes(status)) {
+  if (
+    !statusPermitidos.includes(status)
+  ) {
     throw new Error(
       "STATUS DO SIAD INVÁLIDO."
     );
   }
 
-  const agora = new Date().toISOString();
+  const agora =
+    new Date().toISOString();
 
   const dadosAtualizacao = {
     status_siad: status,
     updated_at: agora,
   };
 
-  if (status === STATUS_SIAD.LANCADO) {
+  if (
+    status === STATUS_SIAD.LANCADO
+  ) {
     dadosAtualizacao.data_lancamento_siad =
       agora;
 
-    dadosAtualizacao.erro_siad = null;
-    dadosAtualizacao.observacao_siad = null;
+    dadosAtualizacao.erro_siad =
+      null;
+
+    dadosAtualizacao.observacao_siad =
+      null;
+
+    dadosAtualizacao.descricao_erro =
+      null;
+
+    dadosAtualizacao.data_erro =
+      null;
   }
 
-  if (status === STATUS_SIAD.ERRO) {
+  if (
+    status === STATUS_SIAD.ERRO
+  ) {
     const motivo = String(
       observacao || ""
     ).trim();
@@ -209,23 +309,38 @@ export async function atualizarStatusSiad(
       );
     }
 
-    dadosAtualizacao.erro_siad = motivo;
+    dadosAtualizacao.erro_siad =
+      motivo;
+
     dadosAtualizacao.observacao_siad =
       motivo;
+
     dadosAtualizacao.descricao_erro =
       motivo;
-    dadosAtualizacao.data_erro = agora;
+
+    dadosAtualizacao.data_erro =
+      agora;
 
     dadosAtualizacao.data_lancamento_siad =
       null;
   }
 
-  if (status === STATUS_SIAD.RECEBIDO) {
+  if (
+    status === STATUS_SIAD.RECEBIDO
+  ) {
     dadosAtualizacao.data_lancamento_siad =
       null;
 
-    dadosAtualizacao.erro_siad = null;
+    dadosAtualizacao.erro_siad =
+      null;
+
     dadosAtualizacao.observacao_siad =
+      null;
+
+    dadosAtualizacao.descricao_erro =
+      null;
+
+    dadosAtualizacao.data_erro =
       null;
   }
 

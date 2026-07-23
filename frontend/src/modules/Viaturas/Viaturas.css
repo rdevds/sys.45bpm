@@ -271,127 +271,552 @@
 
 /* =========================================================================
    LISTA / CARDS DE VIATURA
+   Modelo vertical inspirado no card moderno
    ========================================================================= */
+
 .viaturas-lista-simples {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(290px, 340px)
+  );
+  gap: 22px;
+  align-items: stretch;
+  justify-content: start;
 }
+
+/* =========================================================
+   CARD PRINCIPAL
+========================================================= */
 
 .viatura-card-simples {
-  background: linear-gradient(160deg, rgba(30, 32, 40, 0.92), rgba(20, 22, 28, 0.94));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 22px;
-  color: var(--text);
-  box-shadow: var(--shadow-soft);
+  --cor-status: #1fa866;
+  --cor-status-clara: rgba(31, 168, 102, 0.15);
+  --cor-texto-card: #f8fafc;
+  --cor-texto-secundario: #94a3b8;
+  --cor-borda-card: #2a394a;
+  --cor-fundo-dados: #172434;
+
   position: relative;
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 340px;
+  min-height: 590px;
+  padding: 18px;
   overflow: hidden;
-  isolation: isolate;
-  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
-  animation: fadeSlideUp 0.45s var(--ease) both;
+
+  color: var(--cor-texto-card);
+
+  background:
+    linear-gradient(
+      155deg,
+      rgba(16, 27, 41, 0.98),
+      rgba(10, 18, 29, 0.98)
+    );
+
+  border: 1px solid var(--cor-borda-card);
+  border-radius: 22px;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.28),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
 }
-.viatura-card-simples::after {
-  content: '';
-  position: absolute; top: -45%; left: -70%; width: 40%; height: 190%;
-  background: linear-gradient(75deg, transparent, rgba(255, 227, 176, 0) 42%, rgba(255, 227, 176, 0.12) 50%, rgba(255, 227, 176, 0) 58%, transparent);
-  animation: sheenAuto 10s ease-in-out infinite;
-  pointer-events: none;
-}
+
 .viatura-card-simples:hover {
   transform: translateY(-5px);
-  border-color: rgba(249, 115, 22, 0.32);
-  box-shadow: var(--shadow-card);
+
+  border-color: rgba(249, 115, 22, 0.45);
+
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.38),
+    0 8px 20px rgba(249, 115, 22, 0.08);
 }
+
+.viatura-card-simples:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+}
+
+/* Remove o brilho antigo que atravessava o card */
+
+.viatura-card-simples::after {
+  display: none;
+}
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
 
 .viatura-card-simples > header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 18px;
-  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+
+  margin-bottom: 0;
+
+  position: relative;
+  z-index: 2;
 }
 
-.viatura-card-simples > header h2 {
-  margin: 8px 0 0;
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: #fff;
+.viatura-card-identificacao {
+  min-width: 0;
 }
 
-/* Placa em destaque */
-.viatura-card-simples > header > strong {
-  flex: 0 0 auto;
-  color: var(--orange-light);
-  font-size: 1.05rem;
-  font-weight: 900;
-  margin-top: 2px;
-}
+/* =========================================================
+   STATUS
+========================================================= */
 
-/* Selo de situação — cor depende da classe extra que o JSX aplica
-   (status-disponivel / status-manutencao / status-baixada) */
+.viatura-card-status,
 .status-viatura {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 11px;
+  gap: 7px;
+
+  width: fit-content;
+  min-height: 30px;
+  margin-bottom: 12px;
+  padding: 7px 12px;
+
+  color: var(--cor-status);
+  background: var(--cor-status-clara);
+
+  border: 1px solid rgba(31, 168, 102, 0.25);
   border-radius: 999px;
-  font-size: 0.64rem;
+
+  font-size: 0.7rem;
   font-weight: 900;
-  letter-spacing: 0.05em;
+  line-height: 1;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  background: rgba(148, 163, 184, 0.15);
-  color: var(--text-soft);
-  border: 1px solid rgba(148, 163, 184, 0.28);
 }
+
+.viatura-card-status::before,
 .status-viatura::before {
-  content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  content: "";
+
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+
+  background: var(--cor-status);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 4px rgba(31, 168, 102, 0.12);
 }
-.status-viatura.status-disponivel {
-  color: var(--success);
-  background: rgba(74, 222, 128, 0.14);
-  border-color: rgba(74, 222, 128, 0.28);
+
+/* =========================================================
+   PLACA NO TOPO
+========================================================= */
+
+.viatura-card-placa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+
+  padding-top: 5px;
+
+  color: #fb923c;
+
+  font-size: 0.88rem;
+  font-weight: 900;
+  white-space: nowrap;
 }
-.status-viatura.status-manutencao {
-  color: var(--orange-light);
-  background: rgba(249, 115, 22, 0.14);
-  border-color: rgba(249, 115, 22, 0.3);
+
+.viatura-card-placa svg {
+  flex: 0 0 auto;
+
+  transition:
+    transform 0.2s ease;
 }
-.status-viatura.status-baixada {
-  color: var(--danger);
-  background: rgba(239, 68, 68, 0.14);
-  border-color: rgba(239, 68, 68, 0.3);
+
+.viatura-card-simples:hover
+.viatura-card-placa svg {
+  transform: translateX(3px);
 }
+
+/* =========================================================
+   ESPAÇO RESERVADO PARA A FOTO
+   Pode ser removido depois quando a imagem real for adicionada
+========================================================= */
+
+.viatura-card-simples > header::after {
+  content: "FOTO DA VIATURA";
+
+  grid-column: 1 / -1;
+
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  height: 190px;
+  margin-top: 4px;
+
+  color: #536174;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(249, 115, 22, 0.06),
+      transparent 65%
+    ),
+    rgba(15, 23, 42, 0.38);
+
+  border: 1px dashed #334155;
+  border-radius: 16px;
+
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+/* =========================================================
+   PREFIXO
+========================================================= */
+
+.viatura-card-prefixo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.viatura-card-prefixo svg {
+  flex: 0 0 auto;
+  color: #fb923c;
+}
+
+.viatura-card-simples > header h2,
+.viatura-card-prefixo h2 {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+/* Caso o prefixo esteja fora do h2 */
+
+.viatura-card-prefixo strong {
+  color: #f8fafc;
+
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+/* Evita o estilo antigo da placa atingir o prefixo */
+
+.viatura-card-simples > header > strong {
+  color: #fb923c;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+/* =========================================================
+   DADOS DA VIATURA
+========================================================= */
 
 .viatura-card-dados-simples {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  position: relative; z-index: 1;
+  grid-template-columns: 1fr;
+  gap: 0;
+
+  margin-top: 18px;
+  overflow: hidden;
+
+  background: var(--cor-fundo-dados);
+
+  border: 1px solid #243447;
+  border-radius: 14px;
+
+  position: relative;
+  z-index: 1;
 }
-.viatura-card-dados-simples > div { min-width: 0; }
+
+.viatura-card-dados-simples > div {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  align-items: center;
+
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 13px;
+}
+
+.viatura-card-dados-simples > div + div {
+  border-top: 1px solid #27384b;
+}
+
 .viatura-card-dados-simples span {
-  display: block;
-  margin-bottom: 5px;
-  color: var(--text-faint);
-  font-size: 0.63rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
 }
+
+.viatura-card-dados-simples span svg {
+  flex: 0 0 auto;
+  color: #fb923c;
+}
+
 .viatura-card-dados-simples strong {
   display: block;
+
+  min-width: 0;
   overflow: hidden;
-  color: #e2e8f0;
-  font-size: 0.82rem;
-  font-weight: 800;
+
+  color: #f8fafc;
+
+  font-size: 0.79rem;
+  font-weight: 850;
   line-height: 1.35;
+  text-align: right;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* =========================================================
+   RODAPÉ
+========================================================= */
+
+.viatura-card-rodape {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+
+  width: 100%;
+  min-height: 70px;
+  margin-top: auto;
+  padding: 12px 14px;
+
+  color: #186c49;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(31, 168, 102, 0.13),
+      rgba(31, 168, 102, 0.05)
+    );
+
+  border: 1px solid rgba(31, 168, 102, 0.2);
+  border-radius: 15px;
+
+  font-size: 0.72rem;
+  font-weight: 750;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.viatura-card-rodape:hover {
+  transform: translateY(-1px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(31, 168, 102, 0.17),
+      rgba(31, 168, 102, 0.08)
+    );
+
+  border-color: rgba(31, 168, 102, 0.3);
+}
+
+/* Ícone circular do rodapé */
+
+.viatura-card-rodape > svg,
+.viatura-card-rodape
+.viatura-card-icone-status {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+  padding: 6px;
+
+  color: var(--cor-status);
+
+  border: 2px solid var(--cor-status);
+  border-radius: 50%;
+}
+
+/* Texto do rodapé */
+
+.viatura-card-rodape > span:first-of-type {
+  color: #63a984;
+}
+
+.viatura-card-rodape strong {
+  display: block;
+
+  color: #f8fafc;
+
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+/* Botão/área para abrir prontuário */
+
+.viatura-card-abrir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+
+  color: var(--cor-status);
+
+  font-size: 0.72rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.viatura-card-abrir svg {
+  transition:
+    transform 0.2s ease;
+}
+
+.viatura-card-rodape:hover
+.viatura-card-abrir svg {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   SITUAÇÕES
+========================================================= */
+
+.viatura-card-simples.status-disponivel,
+.viatura-card-simples.card-viatura--disponivel {
+  --cor-status: #1fa866;
+  --cor-status-clara: rgba(31, 168, 102, 0.14);
+}
+
+.viatura-card-simples.status-manutencao,
+.viatura-card-simples.card-viatura--manutencao {
+  --cor-status: #f08a18;
+  --cor-status-clara: rgba(240, 138, 24, 0.14);
+}
+
+.viatura-card-simples.status-inoperante,
+.viatura-card-simples.status-baixada,
+.viatura-card-simples.card-viatura--inoperante,
+.viatura-card-simples.card-viatura--baixada {
+  --cor-status: #dc3545;
+  --cor-status-clara: rgba(220, 53, 69, 0.14);
+}
+
+.viatura-card-simples.status-reserva,
+.viatura-card-simples.card-viatura--reserva {
+  --cor-status: #326fd1;
+  --cor-status-clara: rgba(50, 111, 209, 0.14);
+}
+
+/* Rodapé da viatura em manutenção */
+
+.viatura-card-simples.status-manutencao
+.viatura-card-rodape,
+.viatura-card-simples.card-viatura--manutencao
+.viatura-card-rodape {
+  color: #f08a18;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(240, 138, 24, 0.14),
+      rgba(240, 138, 24, 0.05)
+    );
+
+  border-color: rgba(240, 138, 24, 0.24);
+}
+
+/* Rodapé da viatura inoperante ou baixada */
+
+.viatura-card-simples.status-inoperante
+.viatura-card-rodape,
+.viatura-card-simples.status-baixada
+.viatura-card-rodape,
+.viatura-card-simples.card-viatura--inoperante
+.viatura-card-rodape,
+.viatura-card-simples.card-viatura--baixada
+.viatura-card-rodape {
+  color: #dc3545;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220, 53, 69, 0.14),
+      rgba(220, 53, 69, 0.05)
+    );
+
+  border-color: rgba(220, 53, 69, 0.24);
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 768px) {
+  .viaturas-lista-simples {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(280px, 1fr)
+    );
+  }
+
+  .viatura-card-simples {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .viatura-card-simples {
+    min-height: auto;
+    padding: 15px;
+    border-radius: 18px;
+  }
+
+  .viatura-card-simples > header::after {
+    height: 180px;
+  }
+
+  .viatura-card-rodape {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .viatura-card-abrir {
+    grid-column: 1 / -1;
+    justify-content: center;
+
+    min-height: 38px;
+    margin-top: 4px;
+
+    border-top: 1px solid rgba(31, 168, 102, 0.16);
+  }
 }
 
 /* =========================================================================
@@ -925,7 +1350,7 @@ input:-webkit-autofill:focus {
   border: 1px solid rgba(34, 197, 94, 0.3);
   border-radius: 999px;
 
-  color: #86efac;
+  color: #ef8686;
   background: rgba(34, 197, 94, 0.13);
 
   font-size: 0.7rem;
@@ -1583,3 +2008,202 @@ input:-webkit-autofill:focus {
   }
 }
 
+/* =========================================================
+   TABELA DE ABASTECIMENTOS DO PRONTUÁRIO
+========================================================= */
+
+.prontuario-abastecimentos {
+  width: 100%;
+}
+
+.tabela-abastecimentos-container {
+  width: 100%;
+  overflow-x: auto;
+
+  border: 1px solid #243447;
+  border-radius: 14px;
+
+  background: #0b1423;
+}
+
+.tabela-abastecimentos-prontuario {
+  width: 100%;
+  min-width: 1050px;
+
+  border-collapse: collapse;
+
+  color: #f8fafc;
+
+  font-size: 0.78rem;
+}
+
+.tabela-abastecimentos-prontuario thead {
+  background: #111d2e;
+}
+
+.tabela-abastecimentos-prontuario th {
+  padding: 13px 14px;
+
+  color: #8fa0b8;
+
+  border-bottom: 1px solid #2a394a;
+
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tabela-abastecimentos-prontuario td {
+  padding: 13px 14px;
+
+  color: #e5eaf1;
+
+  border-bottom: 1px solid #1f2d40;
+
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tabela-abastecimentos-prontuario tbody tr {
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tabela-abastecimentos-prontuario tbody tr:hover {
+  background: rgba(249, 115, 22, 0.07);
+}
+
+
+.tabela-abastecimentos-prontuario tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela-abastecimentos-prontuario td:nth-child(4),
+.tabela-abastecimentos-prontuario td:nth-child(5),
+.tabela-abastecimentos-prontuario td:nth-child(6),
+.tabela-abastecimentos-prontuario td:nth-child(7) {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .tabela-abastecimentos-container {
+    border-radius: 10px;
+  }
+}
+
+
+
+/* =========================================================
+   TABELA DE ABASTECIMENTOS NO PRONTUÁRIO
+========================================================= */
+
+.prontuario-abastecimentos {
+  width: 100%;
+}
+
+.tabela-abastecimentos-container {
+  width: 100%;
+  overflow-x: auto;
+  background: #0b1423;
+  border: 1px solid #243447;
+  border-radius: 14px;
+}
+
+.tabela-abastecimentos-prontuario {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+  color: #f8fafc;
+  font-size: 0.78rem;
+}
+
+.tabela-abastecimentos-prontuario thead {
+  background: #111d2e;
+}
+
+.tabela-abastecimentos-prontuario th {
+  padding: 13px 14px;
+  color: #8fa0b8;
+  border-bottom: 1px solid #2a394a;
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tabela-abastecimentos-prontuario td {
+  padding: 13px 14px;
+  color: #e5eaf1;
+  border-bottom: 1px solid #1f2d40;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tabela-abastecimentos-prontuario tbody tr {
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tabela-abastecimentos-prontuario tbody tr:hover {
+  background: rgba(249, 115, 22, 0.07);
+}
+
+.tabela-abastecimentos-prontuario tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela-abastecimentos-prontuario th:nth-child(4),
+.tabela-abastecimentos-prontuario th:nth-child(5),
+.tabela-abastecimentos-prontuario th:nth-child(6),
+.tabela-abastecimentos-prontuario th:nth-child(7),
+.tabela-abastecimentos-prontuario td:nth-child(4),
+.tabela-abastecimentos-prontuario td:nth-child(5),
+.tabela-abastecimentos-prontuario td:nth-child(6),
+.tabela-abastecimentos-prontuario td:nth-child(7) {
+  text-align: right;
+}
+
+.status-siad {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 9px;
+  color: #cbd5e1;
+  background: rgba(148, 163, 184, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.status-siad--recebido {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.25);
+}
+
+.status-siad--lancado {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.25);
+}
+
+.status-siad--erro {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+@media (max-width: 768px) {
+  .tabela-abastecimentos-container {
+    border-radius: 10px;
+  }
+}

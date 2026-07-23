@@ -20,6 +20,10 @@ import {
 
 import { STATUS_VIATURA } from "../../../config/StatusViaturas.js";
 
+import {
+  buscarAbastecimentosDaViatura,
+} from "../../../services/abastecimentosService.js";
+
 function ProntuarioViatura() {
   const { prefixo } = useParams();
   const navigate = useNavigate();
@@ -47,6 +51,19 @@ function ProntuarioViatura() {
 
   const [erro, setErro] =
     useState("");
+
+  const [abastecimentos, setAbastecimentos] =
+    useState([]);
+
+  const [
+    carregandoAbastecimentos,
+    setCarregandoAbastecimentos,
+  ] = useState(false);
+
+  const [
+    erroAbastecimentos,
+    setErroAbastecimentos,
+  ] = useState("");
 
   const abas = useMemo(
     () => [
@@ -122,6 +139,43 @@ function ProntuarioViatura() {
 
     carregarViatura();
   }, [prefixo]);
+
+  useEffect(() => {
+    async function carregarAbastecimentos() {
+      if (!viatura?.id) {
+        setAbastecimentos([]);
+        return;
+      }
+
+      try {
+        setCarregandoAbastecimentos(true);
+        setErroAbastecimentos("");
+
+        const registros =
+          await buscarAbastecimentosDaViatura(
+            viatura.id
+          );
+
+        setAbastecimentos(registros);
+      } catch (error) {
+        console.error(
+          "Erro ao carregar abastecimentos da viatura:",
+          error
+        );
+
+        setAbastecimentos([]);
+
+        setErroAbastecimentos(
+          error?.message ||
+            "Não foi possível carregar os abastecimentos da viatura."
+        );
+      } finally {
+        setCarregandoAbastecimentos(false);
+      }
+    }
+
+    carregarAbastecimentos();
+  }, [viatura?.id]);
 
   function alterarCampo(nome, valor) {
     const camposNumericos = [
@@ -344,6 +398,58 @@ function ProntuarioViatura() {
         currency: "BRL",
       }
     );
+  }
+
+  function obterNomeCondutor(abastecimento) {
+    const nome =
+      abastecimento?.nome_motorista ??
+      abastecimento?.motorista_nome ??
+      abastecimento?.nome_condutor ??
+      abastecimento?.condutor_nome ??
+      abastecimento?.condutor ??
+      abastecimento?.motorista ??
+      abastecimento?.responsavel_nome ??
+      abastecimento?.nome_responsavel ??
+      abastecimento?.militar_nome ??
+      abastecimento?.nome_militar ??
+      abastecimento?.militares?.nome ??
+      abastecimento?.militares?.nome_policia;
+
+    if (
+      nome !== null &&
+      nome !== undefined &&
+      String(nome).trim() !== ""
+    ) {
+      return String(nome).trim().toUpperCase();
+    }
+
+    const numeroPolicia =
+      abastecimento?.numero_policia ??
+      abastecimento?.motorista_numero_policia ??
+      abastecimento?.condutor_numero_policia;
+
+    if (
+      numeroPolicia !== null &&
+      numeroPolicia !== undefined &&
+      String(numeroPolicia).trim() !== ""
+    ) {
+      return `Nº ${String(numeroPolicia).trim()}`;
+    }
+
+    return "NÃO INFORMADO";
+  }
+
+  function formatarLitros(valor) {
+    const numero = Number(valor);
+
+    if (!Number.isFinite(numero)) {
+      return "NÃO INFORMADO";
+    }
+
+    return `${numero.toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 3,
+    })} L`;
   }
 
   if (carregando) {
@@ -811,12 +917,12 @@ function ProntuarioViatura() {
               />
 
               <CampoProntuario
-                label="VP"
-                valor={form.vp}
+                label="Patrimônio"
+                valor={form.patrimonio}
                 editando={editando}
                 onChange={(valor) =>
                   alterarCampo(
-                    "vp",
+                    "patrimonio",
                     valor
                   )
                 }
@@ -845,10 +951,126 @@ function ProntuarioViatura() {
 
           {abaAtiva ===
             "abastecimentos" && (
-            <div className="prontuario-vazio">
-              Histórico de abastecimentos
-              será exibido aqui.
-            </div>
+            <section className="prontuario-abastecimentos">
+              {carregandoAbastecimentos && (
+                <div className="prontuario-vazio">
+                  Carregando abastecimentos...
+                </div>
+              )}
+
+              {!carregandoAbastecimentos &&
+                erroAbastecimentos && (
+                  <div className="aviso-erro">
+                    ⚠ {erroAbastecimentos}
+                  </div>
+                )}
+
+              {!carregandoAbastecimentos &&
+                !erroAbastecimentos &&
+                abastecimentos.length === 0 && (
+                  <div className="prontuario-vazio">
+                    Nenhum abastecimento encontrado
+                    para esta viatura.
+                  </div>
+                )}
+
+              {!carregandoAbastecimentos &&
+                !erroAbastecimentos &&
+                abastecimentos.length > 0 && (
+                  <div className="tabela-abastecimentos-container">
+                    <table className="tabela-abastecimentos-prontuario">
+                      <thead>
+                        <tr>
+                          <th>Data e hora</th>
+                          <th>Condutor</th>
+                          <th>Combustível</th>
+                          <th>Litros</th>
+                          <th>Odômetro</th>
+                          <th>Valor unitário</th>
+                          <th>Valor total</th>
+                          <th>Status SIAD</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {abastecimentos.map(
+                          (abastecimento) => (
+                            <tr key={abastecimento.id}>
+                              <td>
+                                {abastecimento.data_hora
+                                  ? new Date(
+                                      abastecimento.data_hora
+                                    ).toLocaleString(
+                                      "pt-BR"
+                                    )
+                                  : "NÃO INFORMADO"}
+                              </td>
+
+                              <td>
+                                {obterNomeCondutor(
+                                  abastecimento
+                                )}
+                              </td>
+
+                              <td>
+                                {valorExibicao(
+                                  abastecimento.combustivel ??
+                                    abastecimento.tipo_combustivel
+                                )}
+                              </td>
+
+                              <td>
+                                {formatarLitros(
+                                  abastecimento.litros
+                                )}
+                              </td>
+
+                              <td>
+                                {formatarOdometro(
+                                  abastecimento.odometro
+                                )}
+                              </td>
+
+                              <td>
+                                {formatarMoeda(
+                                  abastecimento.valor_unitario
+                                )}
+                              </td>
+
+                              <td>
+                                {formatarMoeda(
+                                  abastecimento.valor_total
+                                )}
+                              </td>
+
+                              <td>
+                                <span
+                                  className={`status-siad status-siad--${String(
+                                    abastecimento.status_siad ??
+                                      abastecimento.status_lancamento ??
+                                      "sem-status"
+                                  )
+                                    .normalize("NFD")
+                                    .replace(
+                                      /[\u0300-\u036f]/g,
+                                      ""
+                                    )
+                                    .toLowerCase()}`}
+                                >
+                                  {valorExibicao(
+                                    abastecimento.status_siad ??
+                                      abastecimento.status_lancamento
+                                  )}
+                                </span>
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+            </section>
           )}
 
           {abaAtiva ===
