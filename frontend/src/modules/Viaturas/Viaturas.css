@@ -1548,3 +1548,38 @@ input:-webkit-autofill:focus {
     width: 100%;
   }
 }
+
+
+.viaturas-header-acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.botao-gerenciar-modelos {
+  min-height: 43px;
+  padding: 0 16px;
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  border-radius: 11px;
+  background: rgba(245, 158, 11, 0.08);
+  color: #fbbf24;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.botao-gerenciar-modelos:hover {
+  background: rgba(245, 158, 11, 0.16);
+}
+
+@media (max-width: 700px) {
+  .viaturas-header-acoes {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .viaturas-header-acoes button {
+    width: 100%;
+  }
+}
+

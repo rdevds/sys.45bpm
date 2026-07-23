@@ -1,7 +1,7 @@
 import { supabase } from "./supabase.js";
 
 const TABELA = "viaturas";
-const VIEW_COMPLETA = "vw_viaturas_completas";
+const VIEW_COMPLETA = "vw_viaturas_completas_v2";
 
 /* =========================================================
    FUNÇÕES PÚBLICAS
@@ -215,14 +215,9 @@ export async function buscarViaturaPorPlaca(
  * Cadastra uma viatura.
  *
  * O frontend envia apenas os dados exclusivos.
- * A trigger do banco preenche:
- * - marca;
- * - modelo;
- * - ano;
- * - dados técnicos;
- * - lotação;
- * - Unidade Frota;
- * - cidade.
+ * O frontend envia os dados exclusivos e o vínculo com a
+ * estrutura organizacional. A trigger do banco pode preencher
+ * marca, modelo, ano e dados técnicos a partir do modelo.
  */
 export async function salvarViatura(
   viatura
@@ -251,7 +246,7 @@ export async function salvarViatura(
 
   /*
    * Após o insert, buscamos a view completa.
-   * Dessa forma o frontend já recebe lotação,
+   * Dessa forma o frontend já recebe estrutura, lotação,
    * modelo e dados técnicos preenchidos.
    */
   const viaturaCompleta =
@@ -402,23 +397,30 @@ export async function atualizarOdometroViatura(
 }
 
 /**
- * Lista as lotações ativas disponíveis para o cadastro.
+ * Compatibilidade com telas antigas.
+ *
+ * As lotações agora são obtidas da estrutura organizacional.
+ * Novos componentes devem usar estrutura_id.
  */
 export async function buscarLotacoesViaturas() {
   const { data, error } = await supabase
-    .from("lotacoes_viaturas")
+    .from("estrutura_organizacional")
     .select(
       `
         id,
-        nome,
+        parent_id,
+        chave,
+        codigo,
         sigla,
-        codigo_siad_unidade_frota,
+        nome,
         cidade,
         ordem_exibicao,
-        ativa
+        ativa,
+        aceita_viatura
       `
     )
     .eq("ativa", true)
+    .eq("aceita_viatura", true)
     .order("ordem_exibicao", {
       ascending: true,
     })
@@ -493,10 +495,23 @@ function prepararDadosViatura(
       viatura?.modeloViaturaId
   );
 
-  const lotacaoViaturaId = Number(
-    viatura?.lotacao_viatura_id ??
-      viatura?.lotacaoViaturaId
+  const estruturaId = Number(
+    viatura?.estrutura_id ??
+      viatura?.estruturaId
   );
+
+  const lotacao = texto(
+    viatura?.lotacao
+  ).toUpperCase();
+
+  const cidade = texto(
+    viatura?.cidade
+  ).toUpperCase();
+
+  const unidadeFrota = somenteNumeros(
+    viatura?.unidade_frota ??
+      viatura?.unidadeFrota
+  ).slice(0, 7);
 
   const prefixo = somenteNumeros(
     viatura?.prefixo
@@ -555,7 +570,10 @@ function prepararDadosViatura(
 
   validarDadosViatura({
     modeloViaturaId,
-    lotacaoViaturaId,
+    estruturaId,
+    lotacao,
+    cidade,
+    unidadeFrota,
     prefixo,
     placa,
     patrimonio,
@@ -574,8 +592,15 @@ function prepararDadosViatura(
     modelo_viatura_id:
       modeloViaturaId,
 
-    lotacao_viatura_id:
-      lotacaoViaturaId,
+    estrutura_id:
+      estruturaId,
+
+    lotacao,
+
+    cidade,
+
+    unidade_frota:
+      unidadeFrota,
 
     prefixo,
 
@@ -605,10 +630,6 @@ function prepararDadosViatura(
     situacao,
   };
 
-  /*
-   * Em nenhum modo enviamos pasta_numero.
-   * Ela é gerada pelo banco e permanece imutável.
-   */
   if (modoEdicao) {
     delete registro.pasta_numero;
   }
@@ -618,7 +639,10 @@ function prepararDadosViatura(
 
 function validarDadosViatura({
   modeloViaturaId,
-  lotacaoViaturaId,
+  estruturaId,
+  lotacao,
+  cidade,
+  unidadeFrota,
   prefixo,
   placa,
   patrimonio,
@@ -644,13 +668,29 @@ function validarDadosViatura({
   }
 
   if (
-    !Number.isInteger(
-      lotacaoViaturaId
-    ) ||
-    lotacaoViaturaId <= 0
+    !Number.isInteger(estruturaId) ||
+    estruturaId <= 0
   ) {
     throw new Error(
       "SELECIONE A LOTAÇÃO DA VIATURA."
+    );
+  }
+
+  if (!lotacao) {
+    throw new Error(
+      "A LOTAÇÃO DA VIATURA NÃO FOI INFORMADA."
+    );
+  }
+
+  if (!cidade) {
+    throw new Error(
+      "A CIDADE DA LOTAÇÃO NÃO FOI INFORMADA."
+    );
+  }
+
+  if (!/^\d{7}$/.test(unidadeFrota)) {
+    throw new Error(
+      "A UNIDADE FROTA DEVE POSSUIR EXATAMENTE 7 DÍGITOS."
     );
   }
 
@@ -834,15 +874,30 @@ function traduzirErroViatura(error) {
   }
 
   if (
-    conteudo.includes(
-      "lotacao_viatura_id"
-    ) ||
-    conteudo.includes(
-      "lotação informada"
-    )
-  ) {
-    return "A LOTAÇÃO INFORMADA NÃO EXISTE OU ESTÁ INATIVA.";
-  }
+  conteudo.includes(
+    "viaturas_estrutura_id_fkey"
+  ) ||
+  conteudo.includes(
+    "foreign key constraint"
+  ) &&
+  conteudo.includes("estrutura_id")
+) {
+  return "A LOTAÇÃO SELECIONADA NÃO EXISTE NA ESTRUTURA ORGANIZACIONAL.";
+}
+
+if (
+  conteudo.includes(
+    "could not find the 'estrutura_id' column"
+  ) ||
+  conteudo.includes(
+    "column \"estrutura_id\""
+  ) ||
+  conteudo.includes(
+    "schema cache"
+  )
+) {
+  return "A COLUNA ESTRUTURA_ID AINDA NÃO ESTÁ DISPONÍVEL NA TABELA VIATURAS.";
+}
 
   if (
     conteudo.includes(

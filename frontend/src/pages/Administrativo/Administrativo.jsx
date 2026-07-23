@@ -62,7 +62,7 @@ const ITENS_MENU = [
   },
   {
     id: "carta-situacao",
-    titulo: "Carta de Situação",
+    titulo: "Carta de Situação Militares",
     rota: "/administrativo/carta-situacao",
     icone: ClipboardList,
   },

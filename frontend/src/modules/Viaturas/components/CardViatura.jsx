@@ -53,68 +53,77 @@ function CardViatura({ viatura = {} }) {
   }
 
   return (
-    <article className="card-viatura">
-      <div className="card-viatura-topo">
-        <div className="card-prefixo">
-          <Car size={18} />
+   <article className="card-viatura">
+  <header className="card-viatura-cabecalho">
+    <div className="card-viatura-identificacao">
+      <span className="card-viatura-status disponivel">
+        DISPONÍVEL
+      </span>
 
-          <strong>
-            {viatura.prefixo || "-"}
-          </strong>
-        </div>
+      <span className="card-viatura-pasta">
+        PASTA 8
+      </span>
+    </div>
 
-        <span className="status-viatura">
-          {obterStatus()}
-        </span>
-      </div>
+    <button
+      type="button"
+      className="card-viatura-placa"
+      onClick={abrirProntuario}
+    >
+      HMH-8598
+      <ChevronRight size={16} />
+    </button>
+  </header>
 
-      <div className="card-viatura-corpo">
-        <h3>
-          {viatura.placa || "-"}
-        </h3>
+  <div className="card-viatura-corpo">
+    <div className="card-viatura-dado">
+      <span>Prefixo</span>
+      <strong>17771</strong>
+    </div>
 
-        <p className="modelo-viatura">
-          {viatura.marca || "-"}{" "}
-          {viatura.modelo || ""}
-        </p>
+    <div className="card-viatura-dado">
+      <span>Marca / Modelo</span>
+      <strong>FIAT DUCATO — 2008</strong>
+    </div>
 
-        <div className="card-viatura-info">
-          <span>
-            <MapPin size={15} />
-            {viatura.cidade || "-"}
-          </span>
+    <div className="card-viatura-dado">
+      <span>Odômetro</span>
+      <strong>108.350 KM</strong>
+    </div>
 
-          <span>
-            <Building2 size={15} />
-            {viatura.lotacao || "-"}
-          </span>
+    <div className="card-viatura-dado">
+      <span>Combustível</span>
+      <strong>DIESEL S10</strong>
+    </div>
 
-          <span>
-            <Fuel size={15} />
-            {viatura.combustivel || "-"}
-          </span>
+    <div className="card-viatura-dado">
+      <span>Cidade</span>
+      <strong>PARACATU</strong>
+    </div>
 
-          <span>
-            <Gauge size={15} />
+    <div className="card-viatura-dado">
+      <span>Lotação</span>
+      <strong>88ª CIA</strong>
+    </div>
+  </div>
 
-            {formatarOdometro(
-              viatura.odometro
-            )}
-          </span>
-        </div>
-      </div>
+  <footer className="card-viatura-rodape">
+    <span className="card-viatura-unidade">
+      Unidade Frota: 1251609
+    </span>
 
-      <button
-        type="button"
-        className="botao-prontuario"
-        onClick={abrirProntuario}
-        disabled={!viatura?.prefixo}
-      >
-        <span>Ver prontuário</span>
-        <ArrowRight size={16} />
-      </button>
-    </article>
+    <button
+      type="button"
+      className="card-viatura-prontuario"
+      onClick={abrirProntuario}
+    >
+      Ver prontuário
+      <ChevronRight size={15} />
+    </button>
+  </footer>
+</article>
   );
 }
 
 export default CardViatura;
+

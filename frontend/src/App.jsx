@@ -20,6 +20,10 @@ import CartaSituacao from "./pages/Administrativo/CartaSituacao/CartaSituacao";
 import OdometrosAtualizados from "./pages/OdometrosAtualizados/OdometrosAtualizados.jsx";
 import Oficios from "./pages/Oficios/Oficios";
 import EstruturaOrganizacional from "./pages/Administrativo/EstruturaOrganizacional/EstruturaOrganizacional.jsx";
+import ModelosViaturas from "./modules/Viaturas/ModelosViaturas.jsx";
+
+
+
 
 // MÓDULO DE VIATURAS
 import Viaturas from "./modules/Viaturas/Viaturas.jsx";
@@ -156,7 +160,10 @@ function App() {
             path="estrutura-organizacional"
             element={<EstruturaOrganizacional />}
           />
-
+              <Route
+            path="viaturas/modelos"
+            element={<ModelosViaturas />}
+          />
           <Route
             path="viaturas"
             element={<Viaturas />}

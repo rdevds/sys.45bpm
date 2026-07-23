@@ -27,6 +27,11 @@ import {
 
 import { supabase } from "../../../services/supabase.js";
 
+import {
+  buscarEstruturasParaViaturas,
+} from "../../../services/estruturaOrganizacionalService.js";
+
+
 import "./NovaViaturaModalV2.css";
 
 const ETAPAS = [
@@ -54,7 +59,8 @@ const ETAPAS = [
 
 const FORMULARIO_INICIAL = {
   modeloViaturaId: "",
-  lotacaoViaturaId: "",
+  estruturaId: "",
+  unidadeFrota: "",
 
   placa: "",
   prefixo: "",
@@ -168,9 +174,9 @@ function NovaViaturaModalV2({
   ] = useState(FORMULARIO_INICIAL);
 
   const [
-    lotacoes,
-    setLotacoes,
-  ] = useState([]);
+  estruturas,
+  setEstruturas,
+] = useState([]);
 
   const [
     modelos,
@@ -202,29 +208,10 @@ function NovaViaturaModalV2({
       setErro("");
 
       const [
-        respostaLotacoes,
+        estruturasCarregadas,
         respostaModelos,
       ] = await Promise.all([
-        supabase
-          .from("lotacoes_viaturas")
-          .select(
-            `
-              id,
-              nome,
-              sigla,
-              codigo_siad_unidade_frota,
-              cidade,
-              ordem_exibicao,
-              ativa
-            `
-          )
-          .eq("ativa", true)
-          .order("ordem_exibicao", {
-            ascending: true,
-          })
-          .order("nome", {
-            ascending: true,
-          }),
+        buscarEstruturasParaViaturas(),
 
         supabase
           .from("modelos_viaturas")
@@ -257,30 +244,20 @@ function NovaViaturaModalV2({
           }),
       ]);
 
-      if (respostaLotacoes.error) {
-        throw new Error(
-          `Não foi possível carregar as lotações: ${respostaLotacoes.error.message}`
-        );
-      }
-
       if (respostaModelos.error) {
         throw new Error(
           `Não foi possível carregar os modelos: ${respostaModelos.error.message}`
         );
       }
 
-      setLotacoes(
-        Array.isArray(
-          respostaLotacoes.data
-        )
-          ? respostaLotacoes.data
+      setEstruturas(
+        Array.isArray(estruturasCarregadas)
+          ? estruturasCarregadas
           : []
       );
 
       setModelos(
-        Array.isArray(
-          respostaModelos.data
-        )
+        Array.isArray(respostaModelos.data)
           ? respostaModelos.data
           : []
       );
@@ -299,6 +276,7 @@ function NovaViaturaModalV2({
     }
   }
 
+
   const modeloSelecionado =
     useMemo(
       () =>
@@ -315,19 +293,19 @@ function NovaViaturaModalV2({
       ]
     );
 
-  const lotacaoSelecionada =
+  const estruturaSelecionada =
     useMemo(
       () =>
-        lotacoes.find(
-          (lotacao) =>
-            Number(lotacao.id) ===
+        estruturas.find(
+          (estrutura) =>
+            Number(estrutura.id) ===
             Number(
-              formulario.lotacaoViaturaId
+              formulario.estruturaId
             )
         ) ?? null,
       [
-        lotacoes,
-        formulario.lotacaoViaturaId,
+        estruturas,
+        formulario.estruturaId,
       ]
     );
 
@@ -602,11 +580,22 @@ function NovaViaturaModalV2({
     }
 
     if (
-      !formulario.lotacaoViaturaId ||
-      !lotacaoSelecionada
+      !formulario.estruturaId ||
+      !estruturaSelecionada
     ) {
       throw new Error(
-        "SELECIONE A LOTAÇÃO DA VIATURA."
+        "SELECIONE A ESTRUTURA DA VIATURA."
+      );
+    }
+
+    const unidadeFrota =
+      somenteNumeros(
+        formulario.unidadeFrota
+      );
+
+    if (unidadeFrota.length !== 7) {
+      throw new Error(
+        "A UNIDADE FROTA DEVE POSSUIR EXATAMENTE 7 DÍGITOS."
       );
     }
   }
@@ -786,9 +775,26 @@ function NovaViaturaModalV2({
             formulario.modeloViaturaId
           ),
 
-        lotacao_viatura_id:
+        estrutura_id:
           Number(
-            formulario.lotacaoViaturaId
+            formulario.estruturaId
+          ),
+                  lotacao:
+             textoMaiusculo(
+             estruturaSelecionada?.sigla ||
+             estruturaSelecionada?.nome
+  ),
+
+cidade:
+  textoMaiusculo(
+    estruturaSelecionada?.cidade
+  ),
+
+
+
+        unidade_frota:
+          somenteNumeros(
+            formulario.unidadeFrota
           ),
 
         placa: normalizarPlaca(
@@ -885,7 +891,7 @@ function NovaViaturaModalV2({
           </strong>
 
           <span>
-            Carregando lotações e modelos
+            Carregando estruturas e modelos
             de viaturas.
           </span>
         </section>
@@ -1203,14 +1209,14 @@ function NovaViaturaModalV2({
 
                 <div>
                   <h3>
-                    Identificação e lotação
+                    Identificação e estrutura
                   </h3>
 
                   <p>
                     Informe a placa, o
-                    prefixo e selecione a
-                    fração à qual a viatura
-                    pertence.
+                    prefixo, a estrutura e a
+                    Unidade Frota atual da
+                    viatura.
                   </p>
                 </div>
               </div>
@@ -1256,68 +1262,75 @@ function NovaViaturaModalV2({
                 </label>
 
                 <label className="nova-vtr-campo-largo">
-                  Lotação *
-                  <select
+  Lotação *
+
+  <select
+    value={formulario.estruturaId}
+    onChange={(event) =>
+      atualizarCampo(
+        "estruturaId",
+        event.target.value
+      )
+    }
+  >
+    <option value="">
+      SELECIONE
+    </option>
+
+    {estruturas.map((estrutura) => (
+      <option
+        key={estrutura.id}
+        value={estrutura.id}
+      >
+        {estrutura.caminho ||
+          estrutura.sigla ||
+          estrutura.nome}
+      </option>
+    ))}
+  </select>
+</label>
+
+
+                
+
+                <label className="nova-vtr-campo-largo">
+                  Unidade Frota *
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={7}
                     value={
-                      formulario.lotacaoViaturaId
+                      formulario.unidadeFrota
                     }
                     onChange={(event) =>
                       atualizarCampo(
-                        "lotacaoViaturaId",
-                        event.target.value
+                        "unidadeFrota",
+                        somenteNumeros(
+                          event.target.value
+                        ).slice(0, 7)
                       )
                     }
-                  >
-                    <option value="">
-                      SELECIONE
-                    </option>
-
-                    {lotacoes.map(
-                      (lotacao) => (
-                        <option
-                          key={lotacao.id}
-                          value={lotacao.id}
-                        >
-                          {lotacao.sigla ||
-                            lotacao.nome}
-                          {" — "}
-                          {
-                            lotacao.codigo_siad_unidade_frota
-                          }
-                        </option>
-                      )
-                    )}
-                  </select>
+                    placeholder="EX.: 1258815"
+                  />
                 </label>
               </div>
 
-              {lotacaoSelecionada && (
+              {estruturaSelecionada && (
                 <div className="nova-vtr-dados-automaticos">
                   <header>
                     <Building2 size={19} />
 
                     <strong>
-                      Dados da lotação
+                      Dados da estrutura
                     </strong>
                   </header>
 
                   <div>
                     <article>
-                      <span>Lotação</span>
+                      <span>Estrutura</span>
                       <strong>
-                        {lotacaoSelecionada.sigla ||
-                          lotacaoSelecionada.nome}
-                      </strong>
-                    </article>
-
-                    <article>
-                      <span>
-                        Unidade Frota
-                      </span>
-                      <strong>
-                        {
-                          lotacaoSelecionada.codigo_siad_unidade_frota
-                        }
+                        {estruturaSelecionada.sigla ||
+                          estruturaSelecionada.nome}
                       </strong>
                     </article>
 
@@ -1325,7 +1338,7 @@ function NovaViaturaModalV2({
                       <span>Cidade</span>
                       <strong>
                         {
-                          lotacaoSelecionada.cidade
+                          estruturaSelecionada.cidade
                         }
                       </strong>
                     </article>
@@ -1649,15 +1662,15 @@ function NovaViaturaModalV2({
                 <section>
                   <header>
                     <MapPin size={18} />
-                    Lotação
+                    Estrutura
                   </header>
 
                   <dl>
                     <div>
-                      <dt>Fração</dt>
+                      <dt>Estrutura</dt>
                       <dd>
-                        {lotacaoSelecionada?.sigla ||
-                          lotacaoSelecionada?.nome}
+                        {estruturaSelecionada?.sigla ||
+                          estruturaSelecionada?.nome}
                       </dd>
                     </div>
 
@@ -1667,7 +1680,7 @@ function NovaViaturaModalV2({
                       </dt>
                       <dd>
                         {
-                          lotacaoSelecionada?.codigo_siad_unidade_frota
+                          formulario.unidadeFrota
                         }
                       </dd>
                     </div>
@@ -1676,7 +1689,7 @@ function NovaViaturaModalV2({
                       <dt>Cidade</dt>
                       <dd>
                         {
-                          lotacaoSelecionada?.cidade
+                          estruturaSelecionada?.cidade
                         }
                       </dd>
                     </div>
@@ -1907,7 +1920,7 @@ function NovaViaturaModalV2({
               disabled={
                 salvando ||
                 modelos.length === 0 ||
-                lotacoes.length === 0
+                estruturas.length === 0
               }
             >
               Continuar

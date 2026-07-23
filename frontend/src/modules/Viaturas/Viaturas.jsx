@@ -299,13 +299,31 @@ function Viaturas() {
             </p>
           </div>
 
-          <button
-            type="button"
-            className="botao-nova-viatura"
-            onClick={abrirModal}
-          >
-            + Nova Viatura
-          </button>
+          <div className="viaturas-header-acoes">
+  <button
+    type="button"
+    className="botao-gerenciar-modelos"
+    onClick={() =>
+      navigate(
+        "/administrativo/viaturas/modelos"
+      )
+    }
+  >
+    Gerenciar Modelos
+  </button>
+
+  <button
+    type="button"
+    className="botao-nova-viatura"
+    onClick={abrirModal}
+  >
+    + Nova Viatura
+  </button>
+</div>
+
+
+
+
         </header>
 
         <section className="viaturas-indicadores">
