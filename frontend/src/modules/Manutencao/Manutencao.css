@@ -1,0 +1,765 @@
+/* =========================================================
+   BAIXA PARA MANUTENÇÃO
+========================================================= */
+
+.baixa-manutencao-pagina {
+  min-height: 100vh;
+  padding: 38px 30px;
+
+  color: #f8fafc;
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(249, 115, 22, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      #111318,
+      #17191f 48%,
+      #1f1814
+    );
+}
+
+.baixa-manutencao-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.baixa-manutencao-cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 26px;
+}
+
+.baixa-manutencao-etiqueta {
+  display: inline-flex;
+
+  margin-bottom: 10px;
+  padding: 6px 11px;
+
+  color: #fdba74;
+  background: rgba(249, 115, 22, 0.1);
+
+  border: 1px solid rgba(249, 115, 22, 0.28);
+  border-radius: 999px;
+
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.baixa-manutencao-titulo h1 {
+  margin: 0;
+
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.baixa-manutencao-titulo p {
+  max-width: 580px;
+  margin: 10px 0 0;
+
+  color: #94a3b8;
+
+  line-height: 1.6;
+}
+
+.baixa-situacao-inicial {
+  min-width: 155px;
+  padding: 14px 16px;
+
+  background: rgba(34, 197, 94, 0.08);
+
+  border: 1px solid rgba(34, 197, 94, 0.24);
+  border-radius: 14px;
+}
+
+.baixa-situacao-inicial span {
+  display: block;
+  margin-bottom: 4px;
+
+  color: #86a794;
+
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.baixa-situacao-inicial strong {
+  color: #4ade80;
+
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+/* FORMULÁRIO */
+
+.baixa-formulario {
+  display: grid;
+  gap: 18px;
+}
+
+.baixa-card {
+  padding: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 24, 32, 0.98),
+      rgba(12, 17, 25, 0.98)
+    );
+
+  border: 1px solid #293548;
+  border-radius: 18px;
+
+  box-shadow:
+    0 15px 38px rgba(0, 0, 0, 0.2);
+}
+
+.baixa-card-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.baixa-card-icone {
+  display: grid;
+  place-items: center;
+
+  width: 42px;
+  height: 42px;
+
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.1);
+
+  border: 1px solid rgba(249, 115, 22, 0.22);
+  border-radius: 12px;
+}
+
+.baixa-card-cabecalho span {
+  color: #fb923c;
+
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.baixa-card-cabecalho h2 {
+  margin: 3px 0 0;
+
+  color: #f8fafc;
+
+  font-size: 1rem;
+  font-weight: 850;
+}
+
+.baixa-campos-linha {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr)
+    auto;
+
+  gap: 14px;
+  align-items: end;
+}
+
+.baixa-campos-viatura {
+  grid-template-columns:
+    minmax(220px, 320px)
+    auto;
+
+  justify-content: start;
+}
+
+.baixa-dados-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.baixa-campo {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.baixa-campo > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #aab5c4;
+
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.baixa-campo input,
+.baixa-campo textarea {
+  width: 100%;
+
+  color: #f8fafc;
+  background: #0a111d;
+
+  border: 1px solid #2b3a50;
+  border-radius: 11px;
+  outline: none;
+
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 650;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.baixa-campo input {
+  min-height: 46px;
+  padding: 0 14px;
+}
+
+.baixa-campo textarea {
+  min-height: 125px;
+  padding: 13px 14px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.baixa-campo input:focus,
+.baixa-campo textarea:focus {
+  background: #0d1624;
+  border-color: #f97316;
+
+  box-shadow:
+    0 0 0 3px rgba(249, 115, 22, 0.13);
+}
+
+.baixa-campo small {
+  align-self: flex-end;
+
+  color: #64748b;
+
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.baixa-campo-largo {
+  grid-column: 1 / -1;
+}
+
+/* BOTÕES */
+
+.baixa-botao-buscar,
+.baixa-botao-revisar,
+.baixa-botao-enviar,
+.baixa-botao-cancelar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 46px;
+  padding: 0 18px;
+
+  border-radius: 11px;
+
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 850;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.baixa-botao-buscar {
+  color: #fdba74;
+  background: rgba(249, 115, 22, 0.08);
+
+  border: 1px solid rgba(249, 115, 22, 0.36);
+}
+
+.baixa-botao-buscar:hover {
+  transform: translateY(-1px);
+
+  background: rgba(249, 115, 22, 0.16);
+  border-color: #f97316;
+}
+
+.baixa-botao-revisar,
+.baixa-botao-enviar {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      120deg,
+      #ea580c,
+      #f97316,
+      #fb923c
+    );
+
+  border: 1px solid #fb923c;
+
+  box-shadow:
+    0 10px 24px -9px rgba(249, 115, 22, 0.55);
+}
+
+.baixa-botao-revisar:hover,
+.baixa-botao-enviar:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 30px -8px rgba(249, 115, 22, 0.65);
+}
+
+.baixa-botao-cancelar {
+  color: #cbd5e1;
+  background: #1b2432;
+
+  border: 1px solid #344258;
+}
+
+.baixa-botao-buscar:disabled,
+.baixa-botao-revisar:disabled,
+.baixa-botao-enviar:disabled,
+.baixa-botao-cancelar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* RESULTADOS */
+
+.baixa-resultado-validado {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 18px;
+  padding: 14px 16px;
+
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.08);
+
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  border-radius: 13px;
+}
+
+.baixa-resultado-validado span,
+.baixa-resultado-validado strong,
+.baixa-resultado-validado small {
+  display: block;
+}
+
+.baixa-resultado-validado span {
+  margin-bottom: 3px;
+
+  color: #86a794;
+
+  font-size: 0.67rem;
+  font-weight: 800;
+}
+
+.baixa-resultado-validado strong {
+  color: #f8fafc;
+
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.baixa-resultado-validado small {
+  margin-top: 3px;
+
+  color: #94a3b8;
+
+  font-size: 0.7rem;
+}
+
+.baixa-viatura-encontrada {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.baixa-viatura-encontrada > div {
+  min-width: 0;
+  padding: 13px 14px;
+
+  background: #111b2a;
+
+  border: 1px solid #27364a;
+  border-radius: 12px;
+}
+
+.baixa-viatura-encontrada span,
+.baixa-viatura-encontrada strong {
+  display: block;
+}
+
+.baixa-viatura-encontrada span {
+  margin-bottom: 5px;
+
+  color: #64748b;
+
+  font-size: 0.65rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.baixa-viatura-encontrada strong {
+  overflow: hidden;
+
+  color: #f8fafc;
+
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* RODAPÉ */
+
+.baixa-formulario-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+
+  padding: 20px 22px;
+
+  background: rgba(15, 23, 42, 0.72);
+
+  border: 1px solid #293548;
+  border-radius: 16px;
+}
+
+.baixa-formulario-rodape span,
+.baixa-formulario-rodape strong {
+  display: block;
+}
+
+.baixa-formulario-rodape span {
+  margin-bottom: 4px;
+
+  color: #64748b;
+
+  font-size: 0.67rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.baixa-formulario-rodape strong {
+  color: #cbd5e1;
+
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+/* ERRO */
+
+.baixa-mensagem-erro {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+
+  color: #fca5a5;
+  background: rgba(127, 29, 29, 0.2);
+
+  border: 1px solid rgba(239, 68, 68, 0.34);
+  border-radius: 12px;
+
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+/* MODAL */
+
+.baixa-modal-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  padding: 22px;
+
+  background: rgba(3, 7, 14, 0.78);
+
+  backdrop-filter: blur(9px);
+}
+
+.baixa-modal {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+
+  color: #f8fafc;
+  background:
+    linear-gradient(
+      145deg,
+      #17202d,
+      #0e1622
+    );
+
+  border: 1px solid #334155;
+  border-radius: 20px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.52);
+}
+
+.baixa-modal-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  padding: 20px 22px;
+
+  border-bottom: 1px solid #293548;
+}
+
+.baixa-modal-cabecalho span {
+  color: #fb923c;
+
+  font-size: 0.67rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.baixa-modal-cabecalho h2 {
+  margin: 4px 0 0;
+
+  font-size: 1.2rem;
+}
+
+.baixa-modal-cabecalho button {
+  display: grid;
+  place-items: center;
+
+  width: 38px;
+  height: 38px;
+  padding: 0;
+
+  color: #cbd5e1;
+  background: #182231;
+
+  border: 1px solid #344258;
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.baixa-resumo-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+  padding: 22px;
+}
+
+.baixa-resumo-grid > div {
+  padding: 13px 14px;
+
+  background: #111b2a;
+
+  border: 1px solid #27364a;
+  border-radius: 11px;
+}
+
+.baixa-resumo-grid span,
+.baixa-resumo-grid strong {
+  display: block;
+}
+
+.baixa-resumo-grid span {
+  margin-bottom: 6px;
+
+  color: #64748b;
+
+  font-size: 0.65rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.baixa-resumo-grid strong {
+  color: #f8fafc;
+
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.baixa-resumo-problema {
+  grid-column: 1 / -1;
+}
+
+.baixa-badge-aberta {
+  display: inline-flex !important;
+
+  width: fit-content;
+  padding: 5px 9px;
+
+  color: #4ade80 !important;
+  background: rgba(34, 197, 94, 0.1);
+
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 999px;
+}
+
+.baixa-modal-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding: 18px 22px 22px;
+
+  border-top: 1px solid #293548;
+}
+
+/* SUCESSO */
+
+.baixa-modal-sucesso {
+  max-width: 460px;
+  padding: 32px;
+
+  text-align: center;
+}
+
+.baixa-sucesso-icone {
+  display: grid;
+  place-items: center;
+
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 18px;
+
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.1);
+
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 50%;
+}
+
+.baixa-modal-sucesso > span {
+  color: #4ade80;
+
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.baixa-modal-sucesso h2 {
+  margin: 8px 0 12px;
+}
+
+.baixa-modal-sucesso p {
+  margin: 0 0 22px;
+
+  color: #94a3b8;
+
+  line-height: 1.6;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 760px) {
+  .baixa-manutencao-pagina {
+    padding: 22px 14px;
+  }
+
+  .baixa-manutencao-cabecalho {
+    flex-direction: column;
+  }
+
+  .baixa-situacao-inicial {
+    width: 100%;
+  }
+
+  .baixa-campos-linha,
+  .baixa-campos-viatura,
+  .baixa-dados-grid,
+  .baixa-viatura-encontrada,
+  .baixa-resumo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .baixa-campo-largo,
+  .baixa-resumo-problema {
+    grid-column: auto;
+  }
+
+  .baixa-botao-buscar {
+    width: 100%;
+  }
+
+  .baixa-formulario-rodape,
+  .baixa-modal-acoes {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .baixa-botao-revisar,
+  .baixa-botao-enviar,
+  .baixa-botao-cancelar {
+    width: 100%;
+  }
+}
+
+
+
+/* =========================================================
+   ERRO DENTRO DO MODAL DE RESUMO
+========================================================= */
+
+.baixa-modal-mensagem-erro {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  margin: 18px 22px 0;
+  padding: 13px 15px;
+
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.24);
+
+  border: 1px solid rgba(239, 68, 68, 0.48);
+  border-radius: 11px;
+}
+
+.baixa-modal-mensagem-erro strong {
+  color: #fca5a5;
+
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.baixa-modal-mensagem-erro span {
+  color: #fee2e2;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.45;
+}

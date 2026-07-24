@@ -1,41 +1,60 @@
+/* ==========================================================================
+   ESTILOS GERAIS E FUNDO ESCURO
+   ========================================================================== */
+
 .home-page {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.35), transparent 32%),
-    radial-gradient(circle at top right, rgba(124, 58, 237, 0.25), transparent 30%),
-    linear-gradient(135deg, #020617 0%, #0f172a 48%, #020617 100%);
-  color: white;
+  /* Fundo escuro azulado elegante */
+  background: radial-gradient(circle at 50% 30%, #789ffc 0%, #070b14 70%, #020408 100%);
+  color: #ffffff;
   position: relative;
   overflow: hidden;
-  padding: 32px;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
 }
 
-.home-glow {
+/* ==========================================================================
+   PAINEL CURVO EM VIDRO ESCURO (GLASSMORPHISM)
+   ========================================================================== */
+
+/* Simula a tela/placa curva de vidro transparente escurecido */
+.home-page::before {
+  content: "";
   position: absolute;
-  border-radius: 999px;
-  filter: blur(70px);
-  opacity: 0.55;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%) perspective(1400px) rotateX(2deg);
+  width: 92%;
+  max-width: 1200px;
+  height: 88%;
+  /* Vidro escuro transparente com reflexo refinado */
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 40px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+  z-index: 0;
+  pointer-events: none;
 }
 
-.glow-one {
-  width: 280px;
-  height: 280px;
-  background: #2563eb;
-  left: -80px;
-  bottom: 80px;
-}
-
-.glow-two {
-  width: 260px;
-  height: 260px;
-  background: #7c3aed;
-  right: -70px;
-  top: 130px;
-}
+/* ==========================================================================
+   CABEÇALHO & MARCA
+   ========================================================================== */
 
 .home-header {
   position: relative;
   z-index: 2;
+  width: 100%;
+  max-width: 1100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,171 +67,278 @@
 }
 
 .brand-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 18px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
 }
 
 .brand h2 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+  color: #ffffff;
 }
 
 .brand p {
   color: #94a3b8;
-  font-size: 14px;
+  font-size: 13px;
+  margin: 2px 0 0 0;
 }
 
 .admin-btn {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: white;
-  padding: 13px 18px;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 14px;
   cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
 }
+
+.admin-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(96, 165, 250, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+}
+
+/* ==========================================================================
+   SEÇÃO HERO (TEXTO CENTRAL)
+   ========================================================================== */
 
 .hero {
   position: relative;
   z-index: 2;
-  min-height: calc(100vh - 150px);
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 42px;
+  gap: 36px;
+  margin: auto 0;
 }
 
 .hero-text {
   text-align: center;
+  max-width: 650px;
 }
 
 .badge {
   display: inline-block;
-  color: #bfdbfe;
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  background: rgba(37, 99, 235, 0.14);
-  padding: 8px 14px;
+  color: #93c5fd;
+  border: 1px solid rgba(147, 197, 253, 0.3);
+  background: rgba(37, 99, 235, 0.2);
+  padding: 6px 16px;
   border-radius: 999px;
-  margin-bottom: 18px;
-  font-size: 14px;
+  margin-bottom: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
 }
 
 .hero h1 {
-  font-size: clamp(42px, 6vw, 72px);
-  font-weight: 900;
-  letter-spacing: -2px;
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0;
+  color: #ffffff;
+  line-height: 1.15;
 }
 
 .hero p {
   margin-top: 14px;
-  color: #cbd5e1;
-  font-size: 18px;
-}
-
-.cards-grid {
-  width: 100%;
-  max-width: 1180px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-}
-
-.action-card {
-  position: relative;
-  height: 285px;
-  border-radius: 30px;
-  padding: 28px;
-  text-align: left;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.07);
-  backdrop-filter: blur(18px);
-  cursor: pointer;
-  box-shadow: 0 24px 70px rgba(0,0,0,0.35);
-}
-
-.card-icon {
-  width: 76px;
-  height: 76px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 28px;
-}
-
-.card-icon svg {
-  width: 40px;
-  height: 40px;
-}
-
-.action-card h3 {
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 12px;
-}
-
-.action-card p {
-  color: #cbd5e1;
+  color: #94a3b8;
   font-size: 15px;
   line-height: 1.5;
 }
 
-.action-card span {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.12);
+/* ==========================================================================
+   GRID DE CARDS & EFEITO NEON
+   ========================================================================== */
+
+.cards-grid {
+  width: 100%;
+  max-width: 1080px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.action-card {
+  position: relative;
+  height: 260px;
+  border-radius: 20px;
+  padding: 24px;
+  text-align: left;
+  color: #ffffff;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Ícone dentro do Card */
+.card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
 }
 
-.action-card.blue .card-icon { background: #2563eb; }
-.action-card.orange .card-icon { background: #f97316; }
-.action-card.red .card-icon { background: #dc2626; }
-.action-card.purple .card-icon { background: #7c3aed; }
+.action-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
 
-.action-card.blue { border-color: rgba(37, 99, 235, 0.5); }
-.action-card.orange { border-color: rgba(249, 115, 22, 0.5); }
-.action-card.red { border-color: rgba(220, 38, 38, 0.5); }
-.action-card.purple { border-color: rgba(124, 58, 237, 0.5); }
+.action-card p {
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* Botão/Circulo com seta no canto inferior direito */
+.action-card span {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+/* --- ESTILOS NEON INDIVIDUAIS POR CARD --- */
+
+/* 1. Vermelho (Baixa de viatura) */
+.action-card.red {
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+.action-card.red .card-icon { background: #dc2626; }
+.action-card.red:hover {
+  border-color: #ef4444;
+  box-shadow: 0 0 35px rgba(239, 68, 68, 0.6), inset 0 0 15px rgba(239, 68, 68, 0.2);
+}
+
+/* 2. Laranja (Baixa por acidente) */
+.action-card.orange {
+  border: 1px solid rgba(249, 115, 22, 0.5);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+}
+.action-card.orange .card-icon { background: #ea580c; }
+.action-card.orange:hover {
+  border-color: #f97316;
+  box-shadow: 0 0 35px rgba(249, 115, 22, 0.6), inset 0 0 15px rgba(249, 115, 22, 0.2);
+}
+
+/* 3. Azul (Abastecimento via XSM) */
+.action-card.blue {
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+.action-card.blue .card-icon { background: #2563eb; }
+.action-card.blue:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 0 35px rgba(59, 130, 246, 0.6), inset 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+/* 4. Roxo (Área Administrativa) */
+.action-card.purple {
+  border: 1px solid rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+}
+.action-card.purple .card-icon { background: #7c3aed; }
+.action-card.purple:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 35px rgba(139, 92, 246, 0.6), inset 0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+/* Efeito ao passar o mouse (Hover Geral) */
+.action-card:hover {
+  transform: translateY(-8px);
+  background: rgba(30, 41, 59, 0.85);
+}
+
+.action-card:hover .card-icon {
+  transform: scale(1.08);
+}
+
+.action-card:hover p {
+  color: #e2e8f0;
+}
+
+.action-card:hover span {
+  background: #ffffff;
+  color: #dcdfe7;
+  border-color: #ffffff;
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   RODAPÉ
+   ========================================================================== */
 
 .home-footer {
   position: relative;
   z-index: 2;
   text-align: center;
-  color: #94a3b8;
-  font-size: 14px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
 }
 
-@media (max-width: 1050px) {
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 1024px) {
   .cards-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .home-page::before {
+    height: 92%;
+  }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 640px) {
   .home-page {
-    padding: 22px;
+    padding: 20px 12px;
   }
 
   .home-header {
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
   }
 
   .cards-grid {
@@ -221,6 +347,13 @@
 
   .action-card {
     height: auto;
-    min-height: 250px;
+    min-height: 200px;
+  }
+
+  .home-page::before {
+    transform: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
   }
 }

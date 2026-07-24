@@ -16,43 +16,50 @@ function Home() {
 
   const cards = [
     {
-      titulo: "Baixa de viatura",
+      titulo: "Baixa para manutenção",
       descricao:
-        "Registrar a indisponibilidade da viatura e iniciar o processo de baixa.",
+        "Relate problemas apresentados pela viatura e encaminhe a solicitação para a Frota.",
       classe: "red",
-      icone: <Wrench />,
+      icone: <Wrench size={28} />,
       rota: "/baixa-viatura",
     },
     {
       titulo: "Baixa por acidente",
       descricao:
-        "Informar acidente envolvendo viatura e iniciar os procedimentos necessários.",
+        "Informe acidente envolvendo viatura e inicie os procedimentos necessários.",
       classe: "orange",
-      icone: <AlertTriangle />,
+      icone: <AlertTriangle size={28} />,
       rota: "/baixa-acidente",
     },
     {
       titulo: "Abastecimento via XSM",
       descricao:
-        "Registrar abastecimento realizado por convênio ou doação.",
+        "Registre abastecimentos realizados por convênio ou doação.",
       classe: "blue",
-      icone: <Fuel />,
+      icone: <Fuel size={28} />,
       rota: "/abastecimento",
     },
     {
       titulo: "Área Administrativa",
       descricao:
-        "Gerenciar viaturas, militares, abastecimentos e demais módulos.",
+        "Gerencie viaturas, militares, abastecimentos, manutenções e demais módulos.",
       classe: "purple",
-      icone: <ShieldCheck />,
+      icone: <ShieldCheck size={28} />,
       rota: "/administrativo",
     },
   ];
 
   return (
     <main className="home-page">
-      <div className="home-glow glow-one" />
-      <div className="home-glow glow-two" />
+      <div
+        className="home-glow glow-one"
+        aria-hidden="true"
+      />
+
+      <div
+        className="home-glow glow-two"
+        aria-hidden="true"
+      />
 
       <header className="home-header">
         <div className="brand">
@@ -77,7 +84,10 @@ function Home() {
           }
         >
           <ShieldCheck size={19} />
-          Área Administrativa
+
+          <span>
+            Área Administrativa
+          </span>
         </button>
       </header>
 
@@ -107,16 +117,19 @@ function Home() {
               onClick={() =>
                 navigate(card.rota)
               }
+              aria-label={`Abrir ${card.titulo}`}
             >
               <div className="card-icon">
                 {card.icone}
               </div>
 
-              <h3>{card.titulo}</h3>
+              <div className="card-content">
+                <h3>{card.titulo}</h3>
 
-              <p>{card.descricao}</p>
+                <p>{card.descricao}</p>
+              </div>
 
-              <span>
+              <span className="card-arrow">
                 <ArrowRight size={22} />
               </span>
             </button>

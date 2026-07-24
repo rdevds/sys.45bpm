@@ -23,10 +23,19 @@ import OdometrosAtualizados from "./pages/OdometrosAtualizados/OdometrosAtualiza
 import Oficios from "./pages/Oficios/Oficios";
 import EstruturaOrganizacional from "./pages/Administrativo/EstruturaOrganizacional/EstruturaOrganizacional.jsx";
 
+
 // MÓDULO DE VIATURAS
 import Viaturas from "./modules/Viaturas/Viaturas.jsx";
 import ModelosViaturas from "./modules/Viaturas/ModelosViaturas.jsx";
 import ProntuarioViatura from "./modules/Viaturas/components/ProntuarioViatura.jsx";
+
+
+/*MÓDULO MANUTENÇÃO DE VIATURAS*/
+
+import ListaBaixas from "./modules/Manutencao/pages/ListaBaixas.jsx";
+import OrdemServico from "./modules/Manutencao/pages/OrdemServico.jsx";
+
+import BaixaManutencao from "./modules/Manutencao/pages/BaixaManutencao.jsx";
 
 /* =========================================================
    DASHBOARD ADMINISTRATIVO
@@ -143,7 +152,12 @@ function App() {
 
         <Route
           path="/baixa-viatura"
-          element={<BaixaViatura />}
+         element={<BaixaManutencao />}
+        />
+
+        <Route
+          path="/baixa-manutencao"
+          element={<BaixaManutencao />}
         />
 
         <Route
@@ -164,6 +178,10 @@ function App() {
           path="/administrativo"
           element={<Administrativo />}
         >
+                                                      <Route
+           path="manutencoes/:baixaId/ordem-servico"
+           element={<OrdemServico />}
+        />
           <Route
             index
             element={<DashboardAdministrativo />}
@@ -210,14 +228,9 @@ function App() {
           />
 
           <Route
-            path="manutencoes"
-            element={
-              <ConteudoEmConstrucao
-                titulo="Manutenções"
-                texto="Módulo de manutenções em desenvolvimento."
+                path="manutencoes"
+                element={<ListaBaixas />}
               />
-            }
-          />
 
           <Route
             path="pneus"

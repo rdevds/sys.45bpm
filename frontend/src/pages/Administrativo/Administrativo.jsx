@@ -23,6 +23,7 @@ import {
   Files,
   ClipboardList,
   Network,
+  ClipboardPlus,
 } from "lucide-react";
 
 import "./Administrativo.css";
@@ -40,6 +41,12 @@ const ITENS_MENU = [
     rota: "/administrativo",
     icone: LayoutDashboard,
     fim: true,
+  },
+  {
+    id: "baixa-viatura",
+    titulo: "Baixa de Viatura",
+    rota: "/baixa-viatura",
+    icone: ClipboardPlus,
   },
   {
     id: "estrutura-organizacional",
@@ -305,7 +312,7 @@ function Administrativo() {
           </div>
 
           <div>
-            <h1>SiGeF</h1>
+            <h1>SIGE</h1>
             <p>45º BPM</p>
           </div>
         </div>
