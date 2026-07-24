@@ -11,6 +11,8 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import CriarSenha from "./pages/CriarSenha/CriarSenha";
 import Abastecimento from "./pages/Abastecimento/Abastecimento";
+import BaixaViatura from "./pages/BaixaViatura/BaixaViatura.jsx";
+import BaixaAcidente from "./pages/BaixaAcidente/BaixaAcidente.jsx";
 
 // ÁREA ADMINISTRATIVA
 import Administrativo from "./pages/Administrativo/Administrativo";
@@ -20,13 +22,10 @@ import CartaSituacao from "./pages/Administrativo/CartaSituacao/CartaSituacao";
 import OdometrosAtualizados from "./pages/OdometrosAtualizados/OdometrosAtualizados.jsx";
 import Oficios from "./pages/Oficios/Oficios";
 import EstruturaOrganizacional from "./pages/Administrativo/EstruturaOrganizacional/EstruturaOrganizacional.jsx";
-import ModelosViaturas from "./modules/Viaturas/ModelosViaturas.jsx";
-
-
-
 
 // MÓDULO DE VIATURAS
 import Viaturas from "./modules/Viaturas/Viaturas.jsx";
+import ModelosViaturas from "./modules/Viaturas/ModelosViaturas.jsx";
 import ProntuarioViatura from "./modules/Viaturas/components/ProntuarioViatura.jsx";
 
 /* =========================================================
@@ -37,13 +36,13 @@ function DashboardAdministrativo() {
   return (
     <section className="admin-painel">
       <span className="admin-painel-etiqueta">
-        SIGEF 45º BPM
+        SIGE 45º BPM
       </span>
 
       <h3>Dashboard</h3>
 
       <p>
-        Visão geral do Sistema de Gestão de Frota.
+        Visão geral do Sistema Integrado de Gestão.
       </p>
     </section>
   );
@@ -60,7 +59,7 @@ function ConteudoEmConstrucao({
   return (
     <section className="admin-painel">
       <span className="admin-painel-etiqueta">
-        SIGEF 45º BPM
+        SIGE 45º BPM
       </span>
 
       <h3>{titulo}</h3>
@@ -123,7 +122,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* ROTAS PÚBLICAS */}
+        {/* =====================================================
+            ROTAS PÚBLICAS
+        ====================================================== */}
 
         <Route
           path="/"
@@ -141,11 +142,23 @@ function App() {
         />
 
         <Route
+          path="/baixa-viatura"
+          element={<BaixaViatura />}
+        />
+
+        <Route
+          path="/baixa-acidente"
+          element={<BaixaAcidente />}
+        />
+
+        <Route
           path="/abastecimento"
           element={<Abastecimento />}
         />
 
-        {/* ÁREA ADMINISTRATIVA */}
+        {/* =====================================================
+            ÁREA ADMINISTRATIVA
+        ====================================================== */}
 
         <Route
           path="/administrativo"
@@ -160,13 +173,15 @@ function App() {
             path="estrutura-organizacional"
             element={<EstruturaOrganizacional />}
           />
-              <Route
-            path="viaturas/modelos"
-            element={<ModelosViaturas />}
-          />
+
           <Route
             path="viaturas"
             element={<Viaturas />}
+          />
+
+          <Route
+            path="viaturas/modelos"
+            element={<ModelosViaturas />}
           />
 
           <Route
@@ -250,7 +265,9 @@ function App() {
           />
         </Route>
 
-        {/* REDIRECIONAMENTOS ANTIGOS */}
+        {/* =====================================================
+            REDIRECIONAMENTOS ANTIGOS
+        ====================================================== */}
 
         <Route
           path="/viaturas"
@@ -367,7 +384,9 @@ function App() {
           }
         />
 
-        {/* FALLBACK GERAL */}
+        {/* =====================================================
+            FALLBACK GERAL
+        ====================================================== */}
 
         <Route
           path="*"

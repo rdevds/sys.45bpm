@@ -24,6 +24,8 @@ import {
   buscarAbastecimentosDaViatura,
 } from "../../../services/abastecimentosService.js";
 
+import { supabase } from "../../../services/supabase.js";
+
 function ProntuarioViatura() {
   const { prefixo } = useParams();
   const navigate = useNavigate();
@@ -151,12 +153,80 @@ function ProntuarioViatura() {
         setCarregandoAbastecimentos(true);
         setErroAbastecimentos("");
 
-        const registros =
-          await buscarAbastecimentosDaViatura(
+        const [
+          registrosXsm,
+          resultadoImportados,
+        ] = await Promise.all([
+          buscarAbastecimentosDaViatura(
             viatura.id
-          );
+          ),
 
-        setAbastecimentos(registros);
+          supabase
+            .from("abastecimentos_importados")
+            .select("*")
+            .eq("viatura_id", viatura.id)
+            .order("data_abastecimento", {
+              ascending: false,
+              nullsFirst: false,
+            }),
+        ]);
+
+        if (resultadoImportados.error) {
+          throw new Error(
+            `Não foi possível consultar os abastecimentos importados: ${resultadoImportados.error.message}`
+          );
+        }
+
+        const registrosImportados = (
+          resultadoImportados.data ?? []
+        ).map((registro) => ({
+          ...registro,
+
+          id_original: registro.id,
+          id: `importado-${registro.id}`,
+
+          origem:
+            registro.fonte || "IMPORTADO",
+
+          data_hora:
+            registro.data_abastecimento
+              ? `${registro.data_abastecimento}T${
+                  registro.hora_abastecimento ||
+                  "00:00:00"
+                }`
+              : null,
+
+          litros:
+            registro.quantidade_litros,
+
+          odometro:
+            registro.odometro_importado,
+
+          status_siad: "NÃO SE APLICA",
+        }));
+
+        const todosRegistros = [
+          ...(registrosXsm ?? []).map(
+            (registro) => ({
+              ...registro,
+              origem:
+                registro.origem || "XSM",
+            })
+          ),
+          ...registrosImportados,
+        ].sort((a, b) => {
+          const dataA = a.data_hora
+            ? new Date(a.data_hora).getTime()
+            : 0;
+
+          const dataB = b.data_hora
+            ? new Date(b.data_hora).getTime()
+            : 0;
+
+          return dataB - dataA;
+        });
+
+        setAbastecimentos(todosRegistros);
       } catch (error) {
         console.error(
           "Erro ao carregar abastecimentos da viatura:",
@@ -982,6 +1052,7 @@ function ProntuarioViatura() {
                       <thead>
                         <tr>
                           <th>Data e hora</th>
+                          <th>Origem</th>
                           <th>Condutor</th>
                           <th>Combustível</th>
                           <th>Litros</th>
@@ -995,7 +1066,9 @@ function ProntuarioViatura() {
                       <tbody>
                         {abastecimentos.map(
                           (abastecimento) => (
-                            <tr key={abastecimento.id}>
+                            <tr
+                              key={`${abastecimento.origem}-${abastecimento.id}`}
+                            >
                               <td>
                                 {abastecimento.data_hora
                                   ? new Date(
@@ -1004,6 +1077,13 @@ function ProntuarioViatura() {
                                       "pt-BR"
                                     )
                                   : "NÃO INFORMADO"}
+                              </td>
+
+                              <td>
+                                {valorExibicao(
+                                  abastecimento.origem ??
+                                    abastecimento.fonte
+                                )}
                               </td>
 
                               <td>
@@ -1059,7 +1139,13 @@ function ProntuarioViatura() {
                                 >
                                   {valorExibicao(
                                     abastecimento.status_siad ??
-                                      abastecimento.status_lancamento
+                                      abastecimento.status_lancamento ??
+                                      (abastecimento.origem ===
+                                        "POC" ||
+                                      abastecimento.origem ===
+                                        "PRIME"
+                                        ? "NÃO SE APLICA"
+                                        : null)
                                   )}
                                 </span>
                               </td>

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import {
+  AlertTriangle,
   ArrowRight,
   Car,
   Fuel,
@@ -15,33 +16,33 @@ function Home() {
 
   const cards = [
     {
-      titulo: "Abastecimento",
+      titulo: "Baixa de viatura",
       descricao:
-        "Registrar um novo abastecimento da viatura.",
+        "Registrar a indisponibilidade da viatura e iniciar o processo de baixa.",
+      classe: "red",
+      icone: <Wrench />,
+      rota: "/baixa-viatura",
+    },
+    {
+      titulo: "Baixa por acidente",
+      descricao:
+        "Informar acidente envolvendo viatura e iniciar os procedimentos necessários.",
+      classe: "orange",
+      icone: <AlertTriangle />,
+      rota: "/baixa-acidente",
+    },
+    {
+      titulo: "Abastecimento via XSM",
+      descricao:
+        "Registrar abastecimento realizado por convênio ou doação.",
       classe: "blue",
       icone: <Fuel />,
       rota: "/abastecimento",
     },
     {
-      titulo: "Viaturas",
-      descricao:
-        "Consultar a frota e acessar o prontuário das viaturas.",
-      classe: "orange",
-      icone: <Car />,
-      rota: "/viaturas",
-    },
-    {
-      titulo: "Manutenções",
-      descricao:
-        "Registrar solicitações e acompanhar manutenções.",
-      classe: "red",
-      icone: <Wrench />,
-      rota: "/administrativo",
-    },
-    {
       titulo: "Área Administrativa",
       descricao:
-        "Gerenciar militares, abastecimentos e demais módulos.",
+        "Gerenciar viaturas, militares, abastecimentos e demais módulos.",
       classe: "purple",
       icone: <ShieldCheck />,
       rota: "/administrativo",
@@ -60,15 +61,20 @@ function Home() {
           </div>
 
           <div>
-            <h2>SiGeF</h2>
-            <p>Sistema de Gestão de Frota · 45º BPM</p>
+            <h2>SIGE</h2>
+
+            <p>
+              Sistema Integrado de Gestão · 45º BPM
+            </p>
           </div>
         </div>
 
         <button
           type="button"
           className="admin-btn"
-          onClick={() => navigate("/administrativo")}
+          onClick={() =>
+            navigate("/administrativo")
+          }
         >
           <ShieldCheck size={19} />
           Área Administrativa
@@ -78,14 +84,17 @@ function Home() {
       <section className="hero">
         <div className="hero-text">
           <span className="badge">
-            SISTEMA DE GESTÃO DE FROTA
+            SISTEMA INTEGRADO DE GESTÃO
           </span>
 
-          <h1>Gestão eficiente da frota</h1>
+          <h1>
+            Gestão eficiente e integrada
+          </h1>
 
           <p>
-            Registre abastecimentos, acompanhe viaturas e
-            organize as atividades do 45º BPM.
+            Registre baixas, acidentes,
+            abastecimentos e acompanhe as
+            atividades da frota do 45º BPM.
           </p>
         </div>
 
@@ -95,7 +104,9 @@ function Home() {
               key={card.titulo}
               type="button"
               className={`action-card ${card.classe}`}
-              onClick={() => navigate(card.rota)}
+              onClick={() =>
+                navigate(card.rota)
+              }
             >
               <div className="card-icon">
                 {card.icone}
@@ -114,7 +125,8 @@ function Home() {
       </section>
 
       <footer className="home-footer">
-        SiGeF · Sistema de Gestão de Frota do 45º BPM
+        SIGE · Sistema Integrado de Gestão do
+        45º BPM
       </footer>
     </main>
   );

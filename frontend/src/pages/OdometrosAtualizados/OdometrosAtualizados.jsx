@@ -11,10 +11,11 @@ import {
 import Button from "../../components/ui/Button.jsx";
 
 import {
-  cruzarRegistrosComViaturas,
-  importarAbastecimentos,
   lerArquivoAbastecimentos,
-} from "../../services/importadores/abastecimentosImportadosService.js";
+  cruzarRegistrosComViaturas,
+  cruzarRegistrosComMilitares,
+  importarAbastecimentos,
+} from "../../services/abastecimentosImportadosService.js";
 
 import "./OdometrosAtualizados.css";
 
@@ -95,16 +96,46 @@ function OdometrosAtualizados() {
           resultado.registros
         );
 
+      let registrosValidosFinais =
+        cruzamento.registrosValidos;
+
+      let registrosComProblema = [
+        ...cruzamento.registrosNaoLocalizados,
+      ];
+
+      /*
+       * O relatório POC identifica o condutor pelo CPF.
+       * Por isso, somente os registros POC precisam ser
+       * cruzados com a tabela militares nesta etapa.
+       *
+       * O PRIME continua com os registros localizados
+       * pela placa, sem ser bloqueado pela ausência de CPF.
+       */
+      if (resultado.fonte === "POC") {
+        const resultadoMilitares =
+          await cruzarRegistrosComMilitares(
+            cruzamento.registrosValidos
+          );
+
+        registrosValidosFinais =
+          resultadoMilitares.registrosLocalizados;
+
+        registrosComProblema = [
+          ...registrosComProblema,
+          ...resultadoMilitares.registrosNaoLocalizados,
+        ];
+      }
+
       setArquivo(arquivoSelecionado);
       setFonte(resultado.fonte);
       setNomeAba(resultado.aba);
 
       setRegistrosValidos(
-        cruzamento.registrosValidos
+        registrosValidosFinais
       );
 
       setRegistrosNaoLocalizados(
-        cruzamento.registrosNaoLocalizados
+        registrosComProblema
       );
     } catch (error) {
       console.error(
@@ -291,7 +322,7 @@ function OdometrosAtualizados() {
             size={20}
           />
 
-          Lendo e cruzando as placas...
+          Lendo e cruzando placas e condutores...
         </div>
       )}
 
@@ -379,6 +410,8 @@ function OdometrosAtualizados() {
                     <th>Placa</th>
                     <th>Prefixo</th>
                     <th>Cidade</th>
+                    <th>Condutor</th>
+                    <th>CPF</th>
                     <th>Combustível</th>
                     <th>Litros</th>
                     <th>Valor</th>
@@ -416,6 +449,16 @@ function OdometrosAtualizados() {
 
                         <td>
                           {registro.cidade_viatura ||
+                            "—"}
+                        </td>
+
+                        <td>
+                          {registro.nome_condutor ||
+                            "—"}
+                        </td>
+
+                        <td>
+                          {registro.cpf_condutor ||
                             "—"}
                         </td>
 
@@ -478,7 +521,7 @@ function OdometrosAtualizados() {
                   {!registrosValidos.length && (
                     <tr>
                       <td
-                        colSpan="11"
+                        colSpan="13"
                         className="tabela-vazia"
                       >
                         Nenhuma placa cadastrada foi
@@ -499,12 +542,12 @@ function OdometrosAtualizados() {
 
                 <div>
                   <strong>
-                    Placas não localizadas
+                    Registros com pendência
                   </strong>
 
                   <span>
-                    Estes registros não serão
-                    importados.
+                    Placas ou condutores não localizados
+                    não serão importados.
                   </span>
                 </div>
               </div>
@@ -520,6 +563,14 @@ function OdometrosAtualizados() {
                     >
                       {registro.placa_original ||
                         "SEM PLACA"}
+                      {" — "}
+                      {registro.situacao_condutor ===
+                      "CONDUTOR_NAO_LOCALIZADO"
+                        ? `CPF ${
+                            registro.cpf_condutor ||
+                            "NÃO INFORMADO"
+                          } NÃO LOCALIZADO`
+                        : "VIATURA NÃO LOCALIZADA"}
                     </span>
                   )
                 )}

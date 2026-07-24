@@ -16,7 +16,18 @@ export function normalizarPlaca(valor) {
 }
 
 export function normalizarCpf(valor) {
-  return String(valor || "").replace(/\D/g, "");
+  const numeros = String(valor ?? "")
+    .replace(/\D/g, "");
+
+  if (!numeros) {
+    return "";
+  }
+
+  if (numeros.length > 11) {
+    return "";
+  }
+
+  return numeros.padStart(11, "0");
 }
 
 function normalizarTexto(valor) {
@@ -57,6 +68,14 @@ function converterNumero(valor) {
     valor === ""
   ) {
     return null;
+  }
+
+  if (valor instanceof Date) {
+    return [
+      String(valor.getHours()).padStart(2, "0"),
+      String(valor.getMinutes()).padStart(2, "0"),
+      String(valor.getSeconds()).padStart(2, "0"),
+    ].join(":");
   }
 
   if (typeof valor === "number") {
@@ -276,7 +295,13 @@ export function identificarFontePlanilha(
   if (
     possui("CPF") ||
     possui("CPF CONDUTOR") ||
-    possui("CPF MOTORISTA")
+    possui("CPF MOTORISTA") ||
+    (
+      possui("DATA INICIAL") &&
+      possui("VEÍCULO", "VEICULO") &&
+      possui("HODÔMETRO", "HODOMETRO") &&
+      possui("CONDUTOR")
+    )
   ) {
     return "POC";
   }
@@ -489,7 +514,7 @@ function converterLinhaFonteCpf(
   );
 
   const registro = {
-    fonte: "FONTE_CPF",
+    fonte: "POC",
     codigo_origem: codigoOrigem || null,
     arquivo_origem: arquivoOrigem,
     linha_arquivo: indice + 2,
@@ -498,6 +523,7 @@ function converterLinhaFonteCpf(
       obterValorLinha(linha, [
         "Data",
         "Data Abastecimento",
+        "Data Inicial",
       ])
     ),
 
@@ -505,6 +531,7 @@ function converterLinhaFonteCpf(
       obterValorLinha(linha, [
         "Hora",
         "Hora Abastecimento",
+        "Data Inicial",
       ])
     ),
 
@@ -514,6 +541,8 @@ function converterLinhaFonteCpf(
           "Placa",
           "Placa Veículo",
           "Placa Veiculo",
+          "Veículo",
+          "Veiculo",
         ])
       ) || null,
 
@@ -523,6 +552,7 @@ function converterLinhaFonteCpf(
           "CPF",
           "CPF Condutor",
           "CPF Motorista",
+          "Condutor",
         ])
       ) || null,
 
@@ -530,7 +560,6 @@ function converterLinhaFonteCpf(
       normalizarTexto(
         obterValorLinha(linha, [
           "Nome",
-          "Condutor",
           "Motorista",
           "Nome Condutor",
         ])
@@ -543,6 +572,7 @@ function converterLinhaFonteCpf(
           "Combustivel",
           "Tipo de Combustível",
           "Tipo de Combustivel",
+          "Produto",
         ])
       ) || null,
 
@@ -552,6 +582,7 @@ function converterLinhaFonteCpf(
         "Quantidade",
         "Quantidade Litros",
         "Qtd Litros",
+        "Volume",
       ])
     ),
 
@@ -561,6 +592,8 @@ function converterLinhaFonteCpf(
         "Valor Unitario",
         "Preço Unitário",
         "Preco Unitario",
+        "Preço Unitário R$",
+        "Preco Unitario R$",
       ])
     ),
 
@@ -569,6 +602,7 @@ function converterLinhaFonteCpf(
         "Valor",
         "Valor Total",
         "Valor Abastecimento",
+        "Valor Total R$",
       ])
     ),
 
@@ -653,6 +687,14 @@ function localizarLinhaCabecalho(planilha) {
     "ODOMETRO",
     "CPF",
     "CPF CONDUTOR",
+    "DATA INICIAL",
+    "VEÍCULO",
+    "VEICULO",
+    "HODÔMETRO",
+    "HODOMETRO",
+    "CONDUTOR",
+    "PRODUTO",
+    "VOLUME",
     "COMBUSTIVEL ABASTECIDO",
     "LITROS",
   ].map(normalizarCabecalho);
@@ -678,11 +720,12 @@ function localizarLinhaCabecalho(planilha) {
         camposReconhecidos.includes(campo)
       ).length;
 
-    const possuiPlaca =
-      camposDaLinha.includes("PLACA");
+    const possuiVeiculo =
+      camposDaLinha.includes("PLACA") ||
+      camposDaLinha.includes("VEICULO");
 
     if (
-      possuiPlaca &&
+      possuiVeiculo &&
       quantidadeReconhecida >= 2
     ) {
       return indice;
@@ -825,7 +868,10 @@ export async function lerArquivoAbastecimentos(
     registros,
   };
 }
-/*======================importar abastecimentos*/
+
+
+
+
 
 export async function cruzarRegistrosComViaturas(
   registros
@@ -942,6 +988,110 @@ export async function cruzarRegistrosComViaturas(
   };
 }
 
+
+/*======================importar abastecimentos*/
+
+export async function cruzarRegistrosComMilitares(
+  registros
+) {
+  if (!Array.isArray(registros)) {
+    return {
+      registrosLocalizados: [],
+      registrosNaoLocalizados: [],
+    };
+  }
+
+  const { data: militares, error } = await supabase
+    .from("militares")
+    .select(`
+      id,
+      numero_policia,
+      nome,
+      nome_policia,
+      graduacao,
+      cpf
+    `);
+
+  if (error) {
+    throw new Error(
+      `Não foi possível consultar os militares: ${error.message}`
+    );
+  }
+
+  const mapaMilitares = new Map();
+
+  for (const militar of militares ?? []) {
+    const cpfNormalizado = normalizarCpf(
+      militar.cpf
+    );
+
+    if (cpfNormalizado) {
+      mapaMilitares.set(
+        cpfNormalizado,
+        militar
+      );
+    }
+  }
+
+  const registrosLocalizados = [];
+  const registrosNaoLocalizados = [];
+
+  for (const registro of registros) {
+    const cpfNormalizado = normalizarCpf(
+      registro.cpf_condutor
+    );
+
+    const militar = mapaMilitares.get(
+      cpfNormalizado
+    );
+
+    if (!militar) {
+      registrosNaoLocalizados.push({
+        ...registro,
+        cpf_condutor: cpfNormalizado || null,
+        situacao_condutor:
+          "CONDUTOR_NAO_LOCALIZADO",
+      });
+
+      continue;
+    }
+
+    registrosLocalizados.push({
+  ...registro,
+
+  cpf_condutor: cpfNormalizado,
+
+  militar_id: militar.id,
+
+  numero_policia_condutor:
+    militar.numero_policia,
+
+  nome_condutor:
+    militar.nome ||
+    registro.nome_condutor ||
+    null,
+
+  nome_completo_condutor:
+    militar.nome ||
+    null,
+
+  graduacao_condutor:
+    militar.graduacao ||
+    null,
+
+ 
+
+  situacao_condutor:
+    "CONDUTOR_LOCALIZADO",
+});
+  }
+
+  return {
+    registrosLocalizados,
+    registrosNaoLocalizados,
+  };
+}
+
 /*============================================================
    GRAVAÇÃO NO SUPABASE
    ============================================================ */
@@ -1002,7 +1152,7 @@ export async function listarAbastecimentosImportados() {
   const { data, error } = await supabase
     .from(TABELA)
     .select("*")
-    .order("data_hora", {
+    .order("data_abastecimento", {
       ascending: false,
       nullsFirst: false,
     });

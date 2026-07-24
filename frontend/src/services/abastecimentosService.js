@@ -121,6 +121,9 @@ export async function salvarAbastecimento(
     prefixo,
     placa,
 
+     origem: "XSM",
+
+     
     status_siad: STATUS_SIAD.RECEBIDO,
 
     status_lancamento:
